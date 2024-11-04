@@ -8,6 +8,15 @@ export const metadata = {
   title: "Esvibes - Home",
   description:
     "Esvibes - Find stylish, high-quality T-shirts with unique designs to elevate your style. Shop now for comfort, originality, and everyday vibes!",
+  openGraph: {
+    images: [
+      {
+        url: `https://i.ibb.co.com/LtjVBLq/image.png`,
+        width: 1200,
+        height: 600,
+      },
+    ],
+  },
 };
 
 export default function RootLayout({ children }) {

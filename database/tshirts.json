@@ -1,0 +1,35 @@
+[
+  {
+    "title": "Fabrilife Mens Premium Designer Edition Full Sleeve T Shirt - Endeavour",
+    "description": "Ringspum Combed Compact 100% Cotton, Organic Fabric Color: Reactive Dye, Enzyme and Silicon washed Fabric Color: Reactive Dye, Enzyme and Silicon washed Typography & artworks are normal/ high density screenprint",
+    "price": 640,
+    "discount": 10,
+    "ability": [
+      {
+        "id": 1,
+        "title": "Ringspum Combed Compact 100% Cotton, Organic"
+      },
+      {
+        "id": 2,
+        "title": "Fabric Color: Reactive Dye, Enzyme and Silicon washed"
+      },
+      {
+        "id": 3,
+        "title": "Design panels all are fabric ; cut and sew"
+      },
+      {
+        "id": 4,
+        "title": "Typography & artworks are normal/ high density screenprint"
+      }
+    ],
+    "user": "",
+    "thumbnail": "https://fabrilife.com/products/6382185fc301d-square.jpg?v=20",
+    "gallery": [
+      "https://fabrilife.com/products/643106a391a9e-square.jpg?v=20",
+      "https://fabrilife.com/products/643106a36dd2f-square.jpg"
+    ],
+    "stock": 40,
+    "reviews": ["asfkajsf", "askfjasf"],
+    "category": "Tshirt"
+  }
+]
