@@ -3,10 +3,7 @@ import { ceredntialLogin } from "@/app/backend/actions";
 import { useState } from "react";
 
 export default function LoginForm({ children }) {
-  const [error, setError] = useState({
-    error: "",
-    message: "",
-  });
+  const [error, setError] = useState(null);
 
   const [loginState, setLoginState] = useState({
     phone: "",
@@ -16,7 +13,7 @@ export default function LoginForm({ children }) {
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    setError({ error: "", message: "" }); // Reset error on input change
+
     setLoginState({
       ...loginState,
       [name]: value,
@@ -30,17 +27,13 @@ export default function LoginForm({ children }) {
       const response = await ceredntialLogin(loginState);
       console.log(response);
     } catch (err) {
-      setError({
-        ...error,
-        error: "name-error",
-        message: "Invalid user and password",
-      });
-      console.log(err.message);
+      setError("Incorrect User and Password");
     }
   };
 
   return (
     <form onSubmit={handleLogin}>
+      <p className="text-red-600">{error}</p>
       <div className="form-control">
         <label htmlFor="phone">Phone</label>
         <input

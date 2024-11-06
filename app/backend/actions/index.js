@@ -30,7 +30,7 @@ export async function createUserAction(userObject) {
     }
     const hashedPassword = await bcrypt.hash(password.trim(), 8);
     const newUser = {
-      fName: trimmedName,
+      name: trimmedName,
       phone: trimmedPhone,
       password: hashedPassword,
       role: "user",

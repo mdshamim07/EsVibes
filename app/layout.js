@@ -1,3 +1,4 @@
+import { auth } from "@/auth";
 import Footer from "./components/Footer";
 import Navigation from "./components/Navigation";
 import TopNavigation from "./components/TopNavigation";
@@ -20,6 +21,8 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
+  const session = await auth();
+  console.log(session);
   return (
     <html lang="en">
       <body className="min-h-screen pb-[100px] dark:bg-[#000] dark:text-white max-w-5xl mx-auto py-6 px-6">
