@@ -62,7 +62,7 @@
 .form-control textarea {
   @apply py-[4px] px-8 bg-transparent nav-border outline-none focus:border-white mt-2;
 }
-.form-control svg {
+.form-control .svg {
   @apply absolute top-[41px] left-2;
 }
 .form-control {
@@ -85,4 +85,15 @@
 
 .anim-bg {
   @apply animate-pulse rounded-sm;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Hide the increment and decrement buttons on Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }

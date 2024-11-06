@@ -19,7 +19,7 @@ export const metadata = {
   },
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="min-h-screen pb-[100px] dark:bg-[#000] dark:text-white max-w-5xl mx-auto py-6 px-6">
