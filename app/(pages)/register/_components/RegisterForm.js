@@ -1,4 +1,5 @@
 "use client";
+import LoadingBtn from "@/app/_components/LoadingBtn";
 import { createUserAction } from "@/app/backend/actions";
 import { useState } from "react";
 
@@ -13,6 +14,7 @@ export default function RegisterForm({ children }) {
     error: "",
     message: "",
   });
+  const [loading, setLoading] = useState(false);
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -26,6 +28,7 @@ export default function RegisterForm({ children }) {
     });
   };
   const handleRegister = async (e) => {
+    setLoading(true);
     e.preventDefault();
     setError({
       error: "",
@@ -34,8 +37,7 @@ export default function RegisterForm({ children }) {
 
     try {
       const response = await createUserAction(registerState);
-      console.log(response);
-      console.log(error);
+
       if (response?.error) {
         setError({
           ...error,
@@ -45,6 +47,8 @@ export default function RegisterForm({ children }) {
       }
     } catch (err) {
       setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -186,7 +190,9 @@ export default function RegisterForm({ children }) {
         )}
       </div>
       {children}
-      <button className="btn mt-4 ">Register</button>
+      <LoadingBtn customClass="mt-2" loading={loading}>
+        Register
+      </LoadingBtn>
     </form>
   );
 }

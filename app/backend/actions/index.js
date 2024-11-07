@@ -2,6 +2,7 @@
 import bcrypt from "bcrypt";
 import { CreateUserQuery } from "../queries/CreateUserQuery";
 import { signIn } from "@/auth";
+
 export async function createUserAction(userObject) {
   try {
     const { fName, phone, password } = userObject;
@@ -36,7 +37,26 @@ export async function createUserAction(userObject) {
       role: "user",
     };
     const response = await CreateUserQuery(newUser);
-    return response;
+    if (response?.ok) {
+      // Automatically log the user in upon successful registration
+      const loginResponse = await ceredntialLogin({
+        phone: trimmedPhone,
+        password,
+      });
+      if (loginResponse?.ok) {
+        return {
+          ok: true,
+          message: "User registered and logged in successfully!",
+        };
+      } else {
+        return {
+          error: "login-error",
+          message: "User registered but login failed.",
+        };
+      }
+    } else {
+      return response; // Pass along any registration error
+    }
   } catch (err) {
     throw new Error(err);
   }
