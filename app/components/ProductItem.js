@@ -1,24 +1,34 @@
+import formatePrice from "@/helpers/formatePrice";
+import Image from "next/image";
 import Link from "next/link";
 
-export default function ProductItem() {
+export default function ProductItem({
+  title,
+  description,
+  thumbnail,
+  price,
+  discount,
+  slug,
+}) {
+  const originalPrice = formatePrice(price, discount);
   return (
     <div>
-      <img
-        className="w-full h-[300px] object-cover"
-        src="https://fabrilife.com/products/6382185fc301d-square.jpg?v=20"
-        alt=""
-      />
+      <Link href={`/tshirt/${slug}`}>
+        <Image
+          className="w-full h-[300px] object-cover"
+          src={thumbnail}
+          alt={title}
+          width={1200}
+          height={1200}
+        />
+      </Link>
       <div className="p-4 border">
-        <Link href="/tshirt/mens-premium-tshirt">
-          <h1 className="font-medium">
-            Fabrilife Mens Premium Designer Edition Full Sleeve T Shirt -
-            Endeavour
-          </h1>
-          <p className="text-gray-300 text-xs mt-2">
-            Ringspum Combed Compact 100% Cotton, Organic Fabric Color:
-          </p>
-          <p className="mt-2">
-            <del className="text-gray-300 text-sm mr-2">৳ 785 </del> ৳ 640
+        <Link href={`/tshirt/${slug}`}>
+          <h1 className="font-medium hover:underline">{title}</h1>
+          <p className="text-gray-300 text-xs mt-2">{description}</p>
+          <p className="mt-2 text-sm">
+            <del className="text-gray-300 text-xs mr-2">৳ BDT {price} </del> ৳{" "}
+            {originalPrice}
           </p>
         </Link>
         <div className="mt-4 flex flex-col md:flex-row items-center gap-3">

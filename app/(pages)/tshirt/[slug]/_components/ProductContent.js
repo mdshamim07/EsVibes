@@ -1,29 +1,30 @@
-export default function ProductContent() {
+export default function ProductContent({
+  originalPrice,
+  title,
+  description,
+  price,
+  discount,
+  ability,
+}) {
   return (
     <div className="hero-content w-full md:w-[60%]">
-      <button className="btn">50% Discount</button>
-      <h1 className="mt-2 mb-2 text-2xl font-bold">
-        Fabrilife Mens Premium Designer Edition Full Sleeve T Shirt - Endeavour
-      </h1>
-      <p className="text-sm text-gray-300 mb-2">
-        Ringspum Combed Compact 100% Cotton, Organic Fabric Color: Reactive Dye,
-        Enzyme and Silicon washed Fabric Color: Reactive Dye, Enzyme and Silicon
-        washed Typography &amp; artworks are normal/ high density screenprint
-      </p>
+      <button className="btn">{discount} % Discount</button>
+      <h1 className="mt-2 mb-2 text-2xl font-bold">{title}</h1>
+      <p className="text-sm text-gray-300 mb-2">{description}</p>
       <p>
-        <del className="text-gray-300 text-sm mr-2">৳ 785 </del> ৳ 640
+        <del className="text-gray-300 text-sm mr-2">৳ BDT {originalPrice} </del>{" "}
+        ৳ {price}
       </p>
-      <div className="mt-4">
-        <h2 className="text-2xl font-bold">Fabric</h2>
-        <ul className="list-disc text-sm text-gray-300 ml-6">
-          <li>Ringspum Combed Compact 100% Cotton, Organic</li>
-          <li>Fabric Color: Reactive Dye, Enzyme and Silicon washed</li>
-          <li>Design panels all are fabric ; cut and sew</li>
-          <li>
-            Typography &amp; artworks are normal/ high density screenprint
-          </li>
-        </ul>
-      </div>
+      {ability.length > 0 && ability && (
+        <div className="mt-4">
+          <h2 className="text-2xl font-bold">Fabric</h2>
+          <ul className="list-disc text-sm text-gray-300 ml-6">
+            {ability.map((abil) => (
+              <li key={abil?._id}>{abil?.title}</li>
+            ))}
+          </ul>
+        </div>
+      )}
       <div className="mt-4 flex items-center gap-3">
         <button className="btn flex justify-between items-center gap-3 border">
           <svg

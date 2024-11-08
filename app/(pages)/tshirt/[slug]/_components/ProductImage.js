@@ -1,23 +1,33 @@
-export default function ProductImage() {
+"use client";
+import Image from "next/image";
+import { useState } from "react";
+
+export default function ProductImage({ thumbnail, title, gallery }) {
+  const [image, setImage] = useState(thumbnail);
   return (
     <div className="w-full md:w-[40%]">
-      <img
+      <Image
+        width={1200}
+        height={1200}
         className="w-full h-[350px] object-cover"
-        src="https://fabrilife.com/products/6382185fc301d-square.jpg?v=20"
-        alt=""
+        src={image}
+        alt={title}
       />
-      <div className="flex items-center gap-2 mt-2">
-        <img
-          className="cursor-pointer p-[1px] bg-green-500 w-[80px] h-[80px] object-cover"
-          src="https://fabrilife.com/products/643106a391a9e-square.jpg?v=20"
-          alt=""
-        />
-        <img
-          className="cursor-pointer p-[1px] w-[80px] h-[80px] object-cover"
-          src="https://fabrilife.com/products/643106a36dd2f-square.jpg"
-          alt=""
-        />
-      </div>
+      {gallery.length > 0 && gallery && (
+        <div className="flex items-center gap-2 mt-2">
+          {gallery.map((galleryItem, index) => (
+            <Image
+              onClick={() => setImage(galleryItem)}
+              key={index}
+              width={80}
+              height={80}
+              className="cursor-pointer p-[1px] bg-green-500 w-[80px] h-[80px] object-cover"
+              src={galleryItem}
+              alt=""
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
