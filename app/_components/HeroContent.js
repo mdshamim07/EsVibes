@@ -1,23 +1,33 @@
-export default function HeroContent() {
+import formatePrice from "@/helpers/formatePrice";
+import Link from "next/link";
+
+export default function HeroContent({
+  title,
+  originalPrice,
+  discount,
+  ability,
+  slug,
+}) {
+  const price = formatePrice(originalPrice, discount);
   return (
     <div className="hero-content w-full md:w-[60%]">
-      <button className="btn">50% Discount</button>
+      <button className="btn">{discount}% Discount</button>
       <h1 className="mt-2 mb-2 text-2xl font-bold">
-        Fabrilife Mens Premium Designer Edition Full Sleeve T Shirt - Endeavour
+        <Link href={`/tshirt/${slug}`} className="hover:underline">{title}</Link>
       </h1>
-      <p>
-        <del className="text-gray-300 text-sm mr-2">৳ 785 </del> ৳ 640
+      <p className="text-sm ">
+        <del className="text-gray-300 text-xs mr-2">৳ BDT {originalPrice} </del>{" "}
+        ৳ {price}
       </p>
       <div className="mt-4">
         <h2 className="text-2xl font-bold">Fabric</h2>
-        <ul className="list-disc text-sm text-gray-300 ml-6">
-          <li>Ringspum Combed Compact 100% Cotton, Organic</li>
-          <li>Fabric Color: Reactive Dye, Enzyme and Silicon washed</li>
-          <li>Design panels all are fabric ; cut and sew</li>
-          <li>
-            Typography &amp; artworks are normal/ high density screenprint
-          </li>
-        </ul>
+        {ability && (
+          <ul className="list-disc text-sm text-gray-300 ml-6">
+            {ability.map((abl) => (
+              <li key={abl?._id}>{abl?.title}</li>
+            ))}
+          </ul>
+        )}
       </div>
       <div className="mt-4 flex items-center gap-3">
         <button className="btn flex justify-between items-center gap-3 border">

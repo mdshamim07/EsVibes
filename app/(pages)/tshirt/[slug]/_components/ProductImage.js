@@ -15,6 +15,14 @@ export default function ProductImage({ thumbnail, title, gallery }) {
       />
       {gallery.length > 0 && gallery && (
         <div className="flex items-center gap-2 mt-2">
+          <Image
+            onClick={() => setImage(thumbnail)}
+            width={80}
+            height={80}
+            className="cursor-pointer p-[1px] bg-green-500 w-[80px] h-[80px] object-cover"
+            src={thumbnail}
+            alt=""
+          />
           {gallery.map((galleryItem, index) => (
             <Image
               onClick={() => setImage(galleryItem)}

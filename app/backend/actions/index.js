@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import { CreateUserQuery } from "../queries/CreateUserQuery";
 import { signIn, signOut } from "@/auth";
 import { revalidatePath } from "next/cache";
+import updateUserInfo from "../models/updateUserInfo";
 
 export async function createUserAction(userObject) {
   try {
@@ -78,4 +79,24 @@ export async function ceredntialLogin(formData) {
 
 export async function doSignOut() {
   await signOut();
+}
+
+export async function updateUserAction(userId, userObject) {
+  if (userObject.name.trim().length === 0) {
+    return {
+      error: "name-error",
+      message: "Provider your name",
+    };
+  } else if (userObject.phone.trim().length === 0) {
+    return {
+      error: "phone-error",
+      message: "Provider your phone",
+    };
+  } else {
+    const response = await updateUserInfo(userId, userObject);
+    if (response.ok) {
+      revalidatePath("/");
+      return response;
+    }
+  }
 }

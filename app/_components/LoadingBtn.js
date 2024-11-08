@@ -1,6 +1,7 @@
 export default function LoadingBtn({ loading, children, customClass }) {
   return (
     <button
+      disabled={loading}
       className={`${customClass} anim-btn bg-white text-black ${
         loading || "hover:bg-[#cacaca] "
       }`}

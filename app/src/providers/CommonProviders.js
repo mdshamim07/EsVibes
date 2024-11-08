@@ -1,10 +1,12 @@
-"use client"
+"use client";
 import { useState } from "react";
 import { CommonContext } from "../context";
 
 export default function CommonProviders({ children }) {
   const [common, setCommon] = useState({
     topbar: false,
+    toast: false,
+    toastMessage: "",
   });
   return (
     <CommonContext.Provider value={{ common, setCommon }}>

@@ -1,8 +1,16 @@
 import { DashboardNavData } from "@/app/info/DashboardNavJson";
 import DashboardNavItem from "../_components/DashboardNavItem";
 import AnimationContainer from "@/app/components/AnimationContainer";
+import { auth } from "@/auth";
 
-export default function layout({ children }) {
+export default async function layout({ children }) {
+  const loggedAuth = await auth();
+  const user = loggedAuth
+    ? loggedAuth?.user
+    : {
+        name: "No Name",
+        phone: "No Phone",
+      };
   return (
     <AnimationContainer>
       <main className="min-h-screen">
@@ -12,8 +20,10 @@ export default function layout({ children }) {
             R
           </div>
           <div className="contents pt-4 text-center">
-            <h1 className="">Md Shamim Mia</h1>
-            <p className="text-sm text-gray-300">General User</p>
+            <h1 className="">{user?.name}</h1>
+            <p className="text-sm text-gray-300">
+              {user?.role ? user?.role : "User"}
+            </p>
           </div>
           <div>
             <ul className="flex justify-center items-center gap-2 mt-2">

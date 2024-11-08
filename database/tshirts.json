@@ -1,16 +1,26 @@
 [
   {
-    "title": "Sample Product 1",
-    "description": "A description of the sample product 1",
-    "price": 99.99,
+    "title": "Mens Premium Blank Full Sleeve T-Shirt - Lavenderash",
+    "description": "Regular fit, Crew Neck Mid-weight, 5.16 oz/yd2 (~175 GSM)",
+    "price": 685,
     "discount": 10,
     "ability": [
-      { "_id": { "$oid": "64b8b9f59f4e9a1234567890" }, "title": "Ability 1" },
-      { "_id": { "$oid": "64b8b9f59f4e9a1234567891" }, "title": "Ability 2" }
+      {
+        "_id": { "$oid": "64b8b9f59f4e9a1234567897" },
+        "title": "Ringspum Combed Compact 100% Cotton, Organic"
+      },
+      {
+        "_id": { "$oid": "64b8b9f59f4e9a1234567896" },
+        "title": "Fabric Color: Reactive Dye, Enzyme and Silicon washed"
+      },
+      {
+        "_id": { "$oid": "64b8b9f59f4e9a1234567894" },
+        "title": "Preshurnk to minimize shrinkage"
+      }
     ],
-    "user": { "$oid": "64b8b9f59f4e9a1234567892" },
-    "thumbnail": "https://i.ibb.co.com/8sbRp6V/61a794e19d4b4-square.jpg",
-    "gallery": [],
+    "user": { "$oid": "672e0ff152ec89e3c44cddff" },
+    "thumbnail": "https://i.ibb.co.com/Y3rRX6w/image.png",
+    "gallery": ["https://i.ibb.co.com/D8h4pT2/image.png"],
     "stock": 50,
     "category": "Tshirt"
   },

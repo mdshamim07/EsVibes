@@ -7,8 +7,16 @@ export default async function getProductBySlug(productSlug) {
     await dbConnect();
 
     const response = await ProductModel.find({ slug: productSlug });
-    const convert = formateMongo(response[0]);
-    return convert;
+  
+    if (response && response.length > 0) {
+      const convert = formateMongo(response[0]);
+      return convert;
+    } else {
+      return {
+        ok: false,
+        message: "No Product Found!",
+      };
+    }
   } catch (err) {
     throw new Error(err);
   }
