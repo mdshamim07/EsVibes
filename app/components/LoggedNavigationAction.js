@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from "react";
 import useCommonState from "../src/hooks/useCommonState";
+import TopbarItem from "./TopbarItem";
+import { TopbarActionDat } from "../info/TopbarActionsJson";
+import LogOutButton from "./LogOutButton";
 
 export default function LoggedNavigationAction({ children }) {
   const { common, setCommon } = useCommonState();
@@ -24,13 +27,7 @@ export default function LoggedNavigationAction({ children }) {
         }
         className="cursor-pointer logged-in-user flex justify-center items-center gap-2"
       >
-        <div className="w-[40px] h-[40px] rounded-full bg-secondary flex justify-center items-center">
-          M
-        </div>
-        <div>
-          <h1 className="text-sm">Md Shamim Mia</h1>
-          <p className="text-xs text-gray-300">Admin</p>
-        </div>
+        {children}
         <div className="cursor-pointer">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -56,7 +53,14 @@ export default function LoggedNavigationAction({ children }) {
           common?.topbar ? "top-20 opacity-100" : "top-16 opacity-0"
         } shadow-lg right-9 md:right-40 px-2 w-[200px] py-2`}
       >
-        {children}
+        <ul className=" text-sm select-none space-y-2">
+          {TopbarActionDat.map((item) => (
+            <TopbarItem target={item?.link} key={item?.id} title={item?.title}>
+              {item?.svg}
+            </TopbarItem>
+          ))}
+          <LogOutButton common={common} setCommon={setCommon} />
+        </ul>
       </div>
     </>
   );

@@ -1,9 +1,11 @@
 "use client";
 import LoadingBtn from "@/app/_components/LoadingBtn";
 import { createUserAction } from "@/app/backend/actions";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function RegisterForm({ children }) {
+  const router = useRouter();
   const [registerState, setRegisterState] = useState({
     fName: "",
     phone: "",
@@ -37,13 +39,14 @@ export default function RegisterForm({ children }) {
 
     try {
       const response = await createUserAction(registerState);
-
+      if (response?.ok === "loggin-succes") {
+        router.push("/");
+      }
       if (response?.error) {
         setError({
           ...error,
           ...response,
         });
-      } else {
       }
     } catch (err) {
       setError(err.message);

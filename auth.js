@@ -32,7 +32,12 @@ export const {
             );
 
             if (isMatch) {
-              return { id: user._id, phone: user.phone, name: user.name };
+              return {
+                id: user._id,
+                phone: user.phone,
+                name: user.name,
+                role: user.role,
+              };
             } else {
               throw new Error("Incorrect Password");
             }

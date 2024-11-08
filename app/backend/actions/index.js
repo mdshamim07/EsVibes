@@ -1,7 +1,8 @@
 "use server";
 import bcrypt from "bcrypt";
 import { CreateUserQuery } from "../queries/CreateUserQuery";
-import { signIn } from "@/auth";
+import { signIn, signOut } from "@/auth";
+import { revalidatePath } from "next/cache";
 
 export async function createUserAction(userObject) {
   try {
@@ -43,10 +44,11 @@ export async function createUserAction(userObject) {
         phone: trimmedPhone,
         password,
       });
-      if (loginResponse?.ok) {
+
+      if (loginResponse) {
+        revalidatePath("/");
         return {
-          ok: true,
-          message: "User registered and logged in successfully!",
+          ok: "loggin-succes",
         };
       } else {
         return {
@@ -72,4 +74,8 @@ export async function ceredntialLogin(formData) {
   } catch (error) {
     throw new Error(error);
   }
+}
+
+export async function doSignOut() {
+  await signOut();
 }
