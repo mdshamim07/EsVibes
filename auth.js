@@ -33,10 +33,7 @@ export const {
 
             if (isMatch) {
               return {
-                id: user._id,
-                phone: user.phone,
-                name: user.name,
-                role: user.role,
+                id: user._id.toString(), // Convert MongoDB ObjectId to string
               };
             } else {
               throw new Error("Incorrect Password");
@@ -53,15 +50,13 @@ export const {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
-        token.phone = user.phone;
-        token.name = user.name;
+        token.id = user.id; // Include only the user ID in the JWT token
       }
       return token;
     },
     async session({ session, token }) {
       if (token) {
-        session.user = { id: token.id, phone: token.phone, name: token.name };
+        session.user = { id: token.id }; // Include only the user ID in the session
       }
       return session;
     },

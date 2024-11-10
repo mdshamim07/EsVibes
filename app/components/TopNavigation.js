@@ -4,12 +4,13 @@ import { TopbarActionDat } from "../info/TopbarActionsJson";
 import TopbarItem from "./TopbarItem";
 import { auth } from "@/auth";
 import NavbarActions from "./NavbarActions";
+import UserCredentials from "../src/UserCredentials";
 
 // import NavbarActions from "./NavbarActions";
 
 export default async function TopNavigation() {
   const loggedAuth = await auth();
-  const user = loggedAuth && loggedAuth?.user;
+  const user = await UserCredentials(loggedAuth?.user?.id);
   return (
     <nav className="flex justify-between items-center ">
       <Logo />
@@ -21,9 +22,7 @@ export default async function TopNavigation() {
           </div>
           <div>
             <h1 className="text-sm">{user?.name}</h1>
-            <p className="text-xs text-gray-300">
-              {user?.role ? user.role : "User"}
-            </p>
+            <p className="text-xs text-gray-300">{user?.phone}</p>
           </div>
         </LoggedNavigationAction>
       ) : (

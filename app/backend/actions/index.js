@@ -4,6 +4,8 @@ import { CreateUserQuery } from "../queries/CreateUserQuery";
 import { signIn, signOut } from "@/auth";
 import { revalidatePath } from "next/cache";
 import updateUserInfo from "../models/updateUserInfo";
+import UpdatePasswordQuery from "../queries/UpdatePasswordQuery";
+import DeleteAccountQuery from "../queries/DeleteAccountQuery";
 
 export async function createUserAction(userObject) {
   try {
@@ -80,8 +82,11 @@ export async function ceredntialLogin(formData) {
 export async function doSignOut() {
   await signOut();
 }
+export async function makeSignout() {
+  await signOut();
+}
 
-export async function updateUserAction(userId, userObject) {
+export async function updateUserAction(userObject) {
   if (userObject.name.trim().length === 0) {
     return {
       error: "name-error",
@@ -93,10 +98,54 @@ export async function updateUserAction(userId, userObject) {
       message: "Provider your phone",
     };
   } else {
-    const response = await updateUserInfo(userId, userObject);
+    const response = await updateUserInfo(userObject);
     if (response.ok) {
       revalidatePath("/");
       return response;
     }
+  }
+}
+
+export async function updatePasswordAction(passObject) {
+  const { password, newPassword, confirmPassword } = passObject;
+  if (password.trim().length === 0) {
+    return {
+      error: "password-error",
+      message: "Please enter your password",
+    };
+  } else if (newPassword.trim().length === 0) {
+    return {
+      error: "newpass-error",
+      message: "Please enter your new password",
+    };
+  } else if (confirmPassword.trim().length === 0) {
+    return {
+      error: "confirmpass-error",
+      message: "Please enter your confirm password",
+    };
+  } else if (newPassword.trim() !== confirmPassword.trim()) {
+    return {
+      error: "nandc-error",
+      message: "New Password and confirm password is not matched !",
+    };
+  } else {
+    const response = await UpdatePasswordQuery({
+      password: password.trim(),
+      newPass: newPassword.trim(),
+    });
+    return response;
+  }
+}
+
+export async function deleteAccountAction() {
+  try {
+    const response = await DeleteAccountQuery();
+    if (response.ok) {
+      return { ok: true };
+    } else {
+      throw new Error("Account deletion failed.");
+    }
+  } catch (err) {
+    return { ok: false, error: err.message };
   }
 }

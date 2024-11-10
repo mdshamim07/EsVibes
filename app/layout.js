@@ -5,6 +5,7 @@ import TopNavigation from "./components/TopNavigation";
 import "./globals.css";
 import CommonProviders from "./src/providers/CommonProviders";
 import ToastContainer from "./components/ToastContainer";
+import ModalContainer from "./(pages)/tshirt/[slug]/_components/ModalContainer";
 
 export const metadata = {
   title: "Esvibes - Home",
@@ -27,6 +28,7 @@ export default async function RootLayout({ children }) {
       <body className="min-h-screen pb-[100px] dark:bg-[#000] dark:text-white max-w-5xl mx-auto py-6 px-6">
         <CommonProviders>
           <ToastContainer />
+          <ModalContainer />
           {/* top navbar start  */}
           <TopNavigation />
           {/* top navbar end  */}

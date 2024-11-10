@@ -2,9 +2,10 @@ import { auth } from "@/auth";
 import { dbConnect } from "../connection/dbConnect";
 import { UserModel } from "./UserModel";
 
-export default async function updateUserInfo(userId, userInfo) {
+export default async function updateUserInfo(userInfo) {
   await dbConnect();
-
+  const user = await auth();
+  const userId = user?.user?.id;
   const response = await UserModel.updateOne(
     { _id: userId },
     {

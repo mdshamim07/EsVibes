@@ -4,6 +4,9 @@ import { useEffect, useRef, useState } from "react";
 export default function AnimationContainer({ children }) {
   const [isInView, setIsInView] = useState(false);
   const animRef = useRef(null);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(

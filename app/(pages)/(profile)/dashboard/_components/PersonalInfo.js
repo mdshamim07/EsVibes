@@ -5,11 +5,12 @@ import { updateUserAction } from "@/app/backend/actions";
 import useCommonState from "@/app/src/hooks/useCommonState";
 import { useState } from "react";
 
-export default function PersonalInfo({ userId, name, phone }) {
+export default function PersonalInfo({ name, phone }) {
   const [info, setInfo] = useState({
     name: name,
     phone: phone,
   });
+
   const { common, setCommon } = useCommonState();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({
@@ -28,7 +29,7 @@ export default function PersonalInfo({ userId, name, phone }) {
     try {
       e.preventDefault();
       setLoading(true);
-      const response = await updateUserAction(userId, info);
+      const response = await updateUserAction(info);
 
       if (response?.error) {
         setError({
@@ -56,7 +57,7 @@ export default function PersonalInfo({ userId, name, phone }) {
   return (
     <form onSubmit={handleUpdatePesonalInfo} className=" nav-border p-3 mt-4">
       <h1 className="font-medium">Update Personal Information</h1>
-      <div className={`form-control ${loading && "opacity-70"}`}>
+      <div className={`form-control ${loading && "opacity-50"}`}>
         <label htmlFor="name">Name</label>
         <input
           onChange={handleChange}
@@ -87,7 +88,7 @@ export default function PersonalInfo({ userId, name, phone }) {
           <p className="text-red-600 text-sm mt-2">{error.message}</p>
         )}
       </div>
-      <div className={`form-control mb-2  ${loading && "opacity-70"}`}>
+      <div className={`form-control mb-2  ${loading && "opacity-50"}`}>
         <label htmlFor="name">Phone</label>
         <input
           onChange={handleChange}

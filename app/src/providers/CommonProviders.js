@@ -7,6 +7,8 @@ export default function CommonProviders({ children }) {
     topbar: false,
     toast: false,
     toastMessage: "",
+    modal: false,
+    modalContent: null,
   });
   return (
     <CommonContext.Provider value={{ common, setCommon }}>

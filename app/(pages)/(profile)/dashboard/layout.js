@@ -2,15 +2,12 @@ import { DashboardNavData } from "@/app/info/DashboardNavJson";
 import DashboardNavItem from "../_components/DashboardNavItem";
 import AnimationContainer from "@/app/components/AnimationContainer";
 import { auth } from "@/auth";
+import UserCredentials from "@/app/src/UserCredentials";
 
 export default async function layout({ children }) {
   const loggedAuth = await auth();
-  const user = loggedAuth
-    ? loggedAuth?.user
-    : {
-        name: "No Name",
-        phone: "No Phone",
-      };
+  const user = await UserCredentials(loggedAuth?.user?.id);
+
   return (
     <AnimationContainer>
       <main className="min-h-screen">
@@ -21,9 +18,7 @@ export default async function layout({ children }) {
           </div>
           <div className="contents pt-4 text-center">
             <h1 className="">{user?.name}</h1>
-            <p className="text-sm text-gray-300">
-              {user?.role ? user?.role : "User"}
-            </p>
+            <p className="text-sm text-gray-300">{user?.phone}</p>
           </div>
           <div>
             <ul className="flex justify-center items-center gap-2 mt-2">
