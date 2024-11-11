@@ -9,7 +9,11 @@ export default function CommonProviders({ children }) {
     toastMessage: "",
     modal: false,
     modalContent: null,
+    addressContent: false,
+    buyModal: false,
+    productId: "",
   });
+
   return (
     <CommonContext.Provider value={{ common, setCommon }}>
       {children}

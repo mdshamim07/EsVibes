@@ -1,31 +1,30 @@
 import AnimationContainer from "@/app/components/AnimationContainer";
-import AddressContainer from "./_components/AddressContainer";
 
-export default function page() {
+import getAddressQuery from "@/app/backend/queries/getAddressQuery";
+import { auth } from "@/auth";
+
+import UserCredentials from "@/app/src/UserCredentials";
+
+import AddressContent from "./_components/AddressContent";
+import AddressContainer from "./_components/AddressContainer";
+import AddressField from "./_components/AddressField";
+import ActualAddress from "./_components/ActualAddress";
+
+export default async function page() {
+  const userAuth = await auth();
+  const userId = userAuth?.user?.id;
+  const user = await UserCredentials(userId);
+  const address = await getAddressQuery(userId);
+
   return (
     <AnimationContainer>
-      <section>
-        <AddressContainer />
-        <div className="w-full mt-4">
-          <div className="nav-border p-2 w-full">
-            <div className="flex justify-between items-center">
-              <h2>Shipping &amp; Billing</h2>
-              <button className="btn">Edit</button>
-            </div>
-            <div className="text-sm mt-2">
-              <p>
-                Rakib Khan Shamim <span className="ml-2">1816628413</span>
-              </p>
-              <div className="flex items-center gap-2 mt-2">
-                <button className="btn">Home</button>
-                <p className="ml-2">
-                  Boubazar, Army Vila, Arichpur, Tongi, Dhaka
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <AddressContent user={user} address={address}>
+        <AddressContainer>
+          <AddressField mode="city" />
+          <AddressField />
+          <ActualAddress address={address} />
+        </AddressContainer>
+      </AddressContent>
     </AnimationContainer>
   );
 }

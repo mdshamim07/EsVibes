@@ -6,6 +6,9 @@ import { revalidatePath } from "next/cache";
 import updateUserInfo from "../models/updateUserInfo";
 import UpdatePasswordQuery from "../queries/UpdatePasswordQuery";
 import DeleteAccountQuery from "../queries/DeleteAccountQuery";
+import UpdateAddressQuery from "../queries/UpdateAddressQuery";
+import AddToCartQuery from "../queries/AddToCartQuery";
+import getProdcutById from "../queries/getProdcutById";
 
 export async function createUserAction(userObject) {
   try {
@@ -154,21 +157,47 @@ export async function doSignInWithGoogle() {
   await signIn("google", { callbackUrl: process.env.MAIN_URL });
 }
 
-export async function getDivisions() {
+export async function updateAddressAction(address) {
   try {
-    const response = await fetch(process.env.REGION_API);
-    const json = await response.json();
-    return json?.data;
+    if (
+      address?.city.trim().length === 0 ||
+      address?.address.trim().length === 0 ||
+      address?.address.trim().length === 0 ||
+      address?.location.trim().length === 0
+    ) {
+      return {
+        error: "all-error",
+        message: "All field required !",
+      };
+    } else {
+      const result = await UpdateAddressQuery({
+        city: address?.city.trim(),
+        area: address?.area.trim(),
+        address: address?.address?.trim(),
+        location: address?.location?.trim(),
+      });
+      revalidatePath("/");
+      return result;
+    }
   } catch (err) {
-    throw new Error("Something went wrong while getting divisions");
+    throw new Error(err);
   }
 }
-export async function getDistrict(districtName) {
+
+export async function addTocartAction(cartInfo) {
   try {
-    const response = await fetch(`${process.env.DISTRICT_API}/${districtName}`);
-    const json = await response.json();
-    return json?.data;
+    const response = await AddToCartQuery(cartInfo);
+    return response;
   } catch (err) {
-    throw new Error("Something went wrong while getting divisions");
+    throw new Error("Something went wrong while adding item on cart");
+  }
+}
+
+export async function getProductByIdAction(productId) {
+  try {
+    const response = await getProdcutById(productId);
+    return response.product;
+  } catch (err) {
+    throw new Error(err.message);
   }
 }

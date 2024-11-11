@@ -50,8 +50,8 @@ export default function LoggedNavigationAction({ children }) {
 
       <div
         className={`bg-secondary z-50 transition-all duration-300 fixed ${
-          common?.topbar ? "top-20 opacity-100" : "top-16 opacity-0"
-        } shadow-lg right-9 md:right-40 px-2 w-[200px] py-2`}
+          common?.topbar ? "top-20 opacity-100" : "top-16 opacity-0 invisible"
+        } shadow-lg right-9 md:right-40 px-2 w-[200px] py-2 visible`}
       >
         <ul className=" text-sm select-none space-y-2">
           {TopbarActionDat.map((item) => (

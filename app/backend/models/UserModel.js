@@ -25,6 +25,10 @@ const userSchema = new Schema({
     type: String,
     required: false,
   },
+  address: {
+    type: Object,
+    required: false,
+  },
 });
 export const UserModel =
   mongoose.models.users ?? mongoose.model("users", userSchema);

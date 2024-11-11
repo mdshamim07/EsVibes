@@ -14,6 +14,7 @@ export default async function ProductsSection() {
         {products.length > 0 && products
           ? products.map((product) => (
               <ProductItem
+                id={product?._id}
                 thumbnail={product?.thumbnail}
                 title={product?.title}
                 description={product?.description}

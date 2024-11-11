@@ -1,98 +1,103 @@
 "use client";
-import { getDivisions } from "@/app/backend/actions";
-import { useEffect, useState } from "react";
 
-export default function AddressContainer() {
-  const [divisions, setDivisions] = useState([]);
-  const [address, setAddress] = useState({
-    division: "",
-    city: "",
+import LoadingBtn from "@/app/_components/LoadingBtn";
+import { updateAddressAction } from "@/app/backend/actions";
+import useCommonState from "@/app/src/hooks/useCommonState";
+import { useState } from "react";
+
+export default function AddressContainer({ children }) {
+  const [location, setLocation] = useState("home");
+  const [loading, setLoading] = useState(false);
+  const { common, setCommon } = useCommonState();
+  const [error, setError] = useState({
+    error: "",
+    message: "",
   });
-  const [loading, setLoading] = useState(true);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setAddress((prevAddress) => ({
-      ...prevAddress,
-      [name]: value,
-    }));
+  const handleUpdateAddress = async (e) => {
+    setLoading(true);
+    try {
+      e.preventDefault();
+      const formData = new FormData(e.target); // Collect form data
+      const addressData = {};
+      addressData.location = location;
+      formData.forEach((value, key) => {
+        addressData[key] = value;
+      });
+      const response = await updateAddressAction(addressData);
+      if (response.error) {
+        setError({
+          ...error,
+          ...response,
+        });
+      } else {
+        setCommon({
+          ...common,
+          toast: true,
+          toastMessage: "Successfully updated your address !",
+        });
+        setCommon({
+          ...common,
+          addressContent: false,
+        });
+      }
+    } catch (err) {
+      setError({
+        ...err,
+        error: "all-error",
+        message: err.message,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
-  useEffect(() => {
-    const fetchDivisions = async () => {
-      setLoading(true); // Set loading to true while data is being fetched
-      const div = await getDivisions();
-      setDivisions(div);
-      setLoading(false); // Set loading to false once data is fetched
-    };
-    fetchDivisions();
-  }, []);
-
   return (
-    <form action="" className="nav-border p-3 mt-4">
-      <h1 className="font-medium">Update Your Address</h1>
+    <>
+      <form onSubmit={handleUpdateAddress} className="nav-border p-3 mt-4">
+        <h1 className="font-medium">Update Your Address</h1>
+        {error?.error && (
+          <p className="text-xs mt-2 mb-2 text-red-600 ">{error?.message}</p>
+        )}
+        <div className={`${loading ? "opacity-50" : "opacity-100"}`}>
+          {children}
+        </div>
 
-      <div className="form-control">
-        <label htmlFor="region">Region</label>
-        <select
-          name="division"
-          value={address.division}
-          onChange={handleChange}
-          disabled={loading} // Disable the select box when loading
-          className={`bg-transparent border p-2 rounded mt-2 ${
-            loading ? "opacity-50" : ""
-          }`}
+        <div className="mt-4 mb-4 flex items-center gap-4">
+          <button
+            onClick={() => setLocation("home")}
+            type="button"
+            className={`${
+              location === "home" ? "btn" : "variable-btn nav-border"
+            }`}
+          >
+            Home
+          </button>
+          <button
+            onClick={() => setLocation("office")}
+            type="button"
+            className={`${
+              location === "office" ? "btn" : "variable-btn nav-border"
+            }`}
+          >
+            Office
+          </button>
+        </div>
+
+        <LoadingBtn loading={loading} className="mt-4">
+          Save Changes
+        </LoadingBtn>
+        <button
+          className="ml-2 variable-btn nav-border"
+          onClick={() =>
+            setCommon({
+              ...common,
+              addressContent: false,
+            })
+          }
         >
-          <option value="" disabled>
-            {loading ? "Loading regions..." : "Select Your Region"}
-          </option>
-          {divisions.map((div, index) => (
-            <option
-              key={index}
-              value={div.division}
-              className="!bg-secondary text-white"
-            >
-              {div.division}
-            </option>
-          ))}
-        </select>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16px"
-          height="16px"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={2}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="svg lucide lucide-book-user"
-        >
-          <path d="M15 13a3 3 0 1 0-6 0" />
-          <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20" />
-          <circle cx={12} cy={8} r={2} />
-        </svg>
-      </div>
-
-      <div className="form-control">
-        <label htmlFor="address">Address</label>
-        <input
-          type="text"
-          placeholder="Enter Your Address"
-          className="p-2 border rounded mt-2"
-        />
-      </div>
-
-      <div className="mt-4 flex items-center gap-4">
-        <button type="button" className="btn">
-          Home
+          Cancel
         </button>
-        <button type="button" className="variable-btn nav-border">
-          Office
-        </button>
-      </div>
-
-      <button className="btn mt-4">Save Changes</button>
-    </form>
+      </form>
+    </>
   );
 }
