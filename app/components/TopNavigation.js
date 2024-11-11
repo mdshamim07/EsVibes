@@ -6,11 +6,10 @@ import { auth } from "@/auth";
 import NavbarActions from "./NavbarActions";
 import UserCredentials from "../src/UserCredentials";
 
-// import NavbarActions from "./NavbarActions";
-
 export default async function TopNavigation() {
   const loggedAuth = await auth();
   const user = await UserCredentials(loggedAuth?.user?.id);
+
   return (
     <nav className="flex justify-between items-center ">
       <Logo />

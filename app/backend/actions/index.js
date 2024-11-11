@@ -149,3 +149,7 @@ export async function deleteAccountAction() {
     return { ok: false, error: err.message };
   }
 }
+
+export async function doSignInWithGoogle() {
+  await signIn("google", { callbackUrl: process.env.MAIN_URL });
+}

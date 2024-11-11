@@ -6,6 +6,7 @@ export default async function UserCredentials(userId) {
   try {
     await dbConnect();
     const getUser = await UserModel.findById(userId).select(["name", "phone"]);
+
     if (getUser) {
       return formateMongo(getUser);
     }
