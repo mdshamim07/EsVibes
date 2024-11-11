@@ -14,7 +14,7 @@ export default async function layout({ children }) {
         <div className="flex justify-center mt-8" />
         <div>
           <div className="w-[100px] mx-auto h-[100px] rounded-full bg-secondary flex justify-center items-center text-4xl">
-            R
+            {user?.name.charAt(0)}
           </div>
           <div className="contents pt-4 text-center">
             <h1 className="">{user?.name}</h1>

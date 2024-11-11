@@ -59,7 +59,8 @@
   background-color: #cacaca;
 }
 .form-control input,
-.form-control textarea {
+.form-control textarea,
+.form-control select {
   @apply py-[4px] px-8 bg-transparent nav-border outline-none focus:border-white mt-2;
 }
 .form-control .svg {

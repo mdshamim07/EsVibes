@@ -153,3 +153,22 @@ export async function deleteAccountAction() {
 export async function doSignInWithGoogle() {
   await signIn("google", { callbackUrl: process.env.MAIN_URL });
 }
+
+export async function getDivisions() {
+  try {
+    const response = await fetch(process.env.REGION_API);
+    const json = await response.json();
+    return json?.data;
+  } catch (err) {
+    throw new Error("Something went wrong while getting divisions");
+  }
+}
+export async function getDistrict(districtName) {
+  try {
+    const response = await fetch(`${process.env.DISTRICT_API}/${districtName}`);
+    const json = await response.json();
+    return json?.data;
+  } catch (err) {
+    throw new Error("Something went wrong while getting divisions");
+  }
+}
