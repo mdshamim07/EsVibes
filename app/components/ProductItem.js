@@ -1,7 +1,7 @@
 import formatePrice from "@/helpers/formatePrice";
 import Image from "next/image";
 import Link from "next/link";
-import AddToCartButton from "./AddToCartButton";
+import CartModalAction from "./CartModalAction";
 
 export default function ProductItem({
   title,
@@ -53,7 +53,7 @@ export default function ProductItem({
             </svg>
             <span>Buy now</span>
           </button>
-          <AddToCartButton id={id} />
+          <CartModalAction id={id} />
         </div>
       </div>
     </div>

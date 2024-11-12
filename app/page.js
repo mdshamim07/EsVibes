@@ -17,8 +17,13 @@ export default async function HomePage() {
           title={event?.title}
           slug={event?.slug}
           ability={event?.ability}
+          id={event?._id}
         />
-        <HeroImage slug={event?.slug} title={event?.title} thumbnail={event?.thumbnail} />
+        <HeroImage
+          slug={event?.slug}
+          title={event?.title}
+          thumbnail={event?.thumbnail}
+        />
       </section>
       <main>
         <ProductsSection />

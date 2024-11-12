@@ -6,13 +6,16 @@ import formatePrice from "@/helpers/formatePrice";
 import Image from "next/image";
 import { useEffect, useState, useMemo } from "react";
 import React from "react";
+import AddCart from "../AddCart";
 
 const BuyModal = React.memo(function BuyModal() {
   const { common, setCommon } = useCommonState();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [count, setCount] = useState(1);
 
+  const [activeSize, setActiveSize] = useState("");
   // Use useMemo to memoize originalPrice
   const originalPrice = useMemo(
     () => formatePrice(product?.price, product?.discount),
@@ -28,6 +31,7 @@ const BuyModal = React.memo(function BuyModal() {
         const result = await getProductByIdAction(common?.productId);
         if (result) {
           setProduct(result);
+          setActiveSize(result?.sizes[0]);
         }
       } catch (err) {
         setError("Failed to fetch product. Please try again.");
@@ -42,10 +46,18 @@ const BuyModal = React.memo(function BuyModal() {
     }
   }, [common?.productId, common?.buyModal]);
 
+  const increament = () => {
+    setCount(count + 1);
+  };
+  const decrement = () => {
+    if (count > 1) {
+      setCount(count - 1);
+    }
+  };
   if (!common?.buyModal) return null; // Avoid rendering when modal is closed
 
   return (
-    <div className="full-page-img-show fixed top-0 left-0 w-full h-screen bg-[rgba(0,0,0,0.6)] z-50 flex justify-center items-center">
+    <div className="full-page-img-show fixed top-0 left-0 w-full h-screen bg-[rgba(0,0,0,0.6)] z-40 flex justify-center items-center">
       <div className="bg-secondary p-3 w-[600px] rounded-sm">
         <div className="flex justify-end w-[95%] ">
           <button
@@ -117,19 +129,31 @@ const BuyModal = React.memo(function BuyModal() {
                 ৳ {originalPrice}
               </p>
               <div className="flex gap-2 mt-2">
-                <button className="variable-btn nav-border">-</button>
+                <button className="variable-btn nav-border" onClick={decrement}>
+                  -
+                </button>
                 <input
                   type="text"
-                  defaultValue={1}
+                  value={count}
                   className="text-center bg-transparent border px-4 w-[60px] h-[30px] outline-none"
                   readOnly
                 />
-                <button className="variable-btn nav-border">+</button>
+                <button
+                  className="variable-btn nav-border"
+                  onClick={increament}
+                >
+                  +
+                </button>
               </div>
               <div className="mt-4 text-sm flex items-center gap-2">
-                Size : <button className="btn">S</button>
                 {product?.sizes?.map((size, index) => (
-                  <button className="variable-btn border" key={index}>
+                  <button
+                    className={`nav-border ${
+                      activeSize === size ? "btn" : " variable-btn"
+                    }`}
+                    onClick={() => setActiveSize(size)}
+                    key={index}
+                  >
                     {size}
                   </button>
                 ))}
@@ -154,25 +178,11 @@ const BuyModal = React.memo(function BuyModal() {
                   </svg>
                   <span>Buy now</span>
                 </button>
-                <button className="variable-btn flex items-center justify-between gap-2 border hover:bg-secondary">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width={16}
-                    height={16}
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="lucide lucide-shopping-cart"
-                  >
-                    <circle cx={8} cy={21} r={1} />
-                    <circle cx={19} cy={21} r={1} />
-                    <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
-                  </svg>
-                  <span> Add to cart</span>
-                </button>
+                <AddCart
+                  productId={common?.productId}
+                  quantity={count}
+                  size={activeSize}
+                />
               </div>
             </div>
           </div>

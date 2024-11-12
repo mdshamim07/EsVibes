@@ -10,11 +10,16 @@ const cartSchema = new Schema({
   },
   price: {
     type: Number,
-    required: true,
+    required: false,
   },
   quantity: {
     type: Number,
     required: true,
   },
+  size: {
+    type: String,
+    required: false,
+  },
 });
-export const cartModel = mongoose.models.carts ?? mongoose.model("carts", cartSchema);
+export const cartModel =
+  mongoose.models.carts ?? mongoose.model("carts", cartSchema);

@@ -186,10 +186,15 @@ export async function updateAddressAction(address) {
 
 export async function addTocartAction(cartInfo) {
   try {
-    const response = await AddToCartQuery(cartInfo);
+    const response = await AddToCartQuery(
+      cartInfo?.productId,
+      cartInfo?.quantity,
+      cartInfo?.size
+    );
+    revalidatePath("/");
     return response;
   } catch (err) {
-    throw new Error("Something went wrong while adding item on cart");
+    throw new Error(err.message);
   }
 }
 
@@ -200,4 +205,9 @@ export async function getProductByIdAction(productId) {
   } catch (err) {
     throw new Error(err.message);
   }
+}
+
+
+export async function deleteCartItemById(cartId){
+  console.log(cartId)
 }

@@ -12,6 +12,7 @@ export default function CommonProviders({ children }) {
     addressContent: false,
     buyModal: false,
     productId: "",
+    toastSuccess: true,
   });
 
   return (

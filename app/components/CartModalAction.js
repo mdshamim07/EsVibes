@@ -2,7 +2,7 @@
 
 import useCommonState from "../src/hooks/useCommonState";
 
-export default function AddToCartButton({ id }) {
+export default function CartModalAction({ id }) {
   const { common, setCommon } = useCommonState();
   const handleAdd = () => {
     setCommon({
@@ -11,6 +11,7 @@ export default function AddToCartButton({ id }) {
       productId: id,
     });
   };
+  
   return (
     <button
       onClick={handleAdd}

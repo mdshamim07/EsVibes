@@ -1,16 +1,21 @@
+import mainPrice from "@/helpers/mainPrice";
 import Link from "next/link";
 
-export default function OrderSummary() {
+export default function OrderSummary({ total, items }) {
+  const shippingFee = 40;
+  const totalPrice = mainPrice(total);
+  const alltotal = mainPrice(shippingFee + total);
+
   return (
     <div className="w-full bg-secondary p-4 mt-6">
       <h1 className="text-2xl font-bold">Order Summary</h1>
       <div className="flex justify-between items-center mt-2 text-gray-200">
-        <p>Subtotal (0 items)</p>
-        <p>৳ 758</p>
+        <p>Subtotal ({items} items)</p>
+        <p>৳ {totalPrice}</p>
       </div>
       <div className="flex justify-between items-center mt-2 text-gray-200">
         <p>Shipping Fee</p>
-        <p>৳ 450</p>
+        <p>৳ BDT {40}</p>
       </div>
       <div className="w-full flex justify-between gap-2 mt-4">
         <input
@@ -22,11 +27,11 @@ export default function OrderSummary() {
       </div>
       <div className="flex justify-between items-center mt-4 text-gray-200">
         <p>Total</p>
-        <p>৳ 7854</p>
+        <p>৳ {alltotal}</p>
       </div>
-      <div className="mt-2">
+      <div className="mt-4">
         <Link href="/checkout" className="btn w-full !py-2">
-          Proceed To Checkout (0)
+          Proceed To Checkout ({items})
         </Link>
       </div>
     </div>

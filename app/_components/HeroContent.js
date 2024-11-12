@@ -1,5 +1,6 @@
 import formatePrice from "@/helpers/formatePrice";
 import Link from "next/link";
+import CartModalAction from "../components/CartModalAction";
 
 export default function HeroContent({
   title,
@@ -7,13 +8,16 @@ export default function HeroContent({
   discount,
   ability,
   slug,
+  id,
 }) {
   const price = formatePrice(originalPrice, discount);
   return (
     <div className="hero-content w-full md:w-[60%]">
       <button className="btn">{discount}% Discount</button>
       <h1 className="mt-2 mb-2 text-2xl font-bold">
-        <Link href={`/tshirt/${slug}`} className="hover:underline">{title}</Link>
+        <Link href={`/tshirt/${slug}`} className="hover:underline">
+          {title}
+        </Link>
       </h1>
       <p className="text-sm ">
         <del className="text-gray-300 text-xs mr-2">৳ BDT {originalPrice} </del>{" "}
@@ -49,25 +53,7 @@ export default function HeroContent({
           </svg>
           <span>Buy now</span>
         </button>
-        <button className="variable-btn flex items-center justify-between gap-2 border hover:bg-secondary">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width={16}
-            height={16}
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="lucide lucide-shopping-cart"
-          >
-            <circle cx={8} cy={21} r={1} />
-            <circle cx={19} cy={21} r={1} />
-            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
-          </svg>
-          <span> Add to cart</span>
-        </button>
+        <CartModalAction id={id} />
       </div>
     </div>
   );
