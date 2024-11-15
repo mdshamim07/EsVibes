@@ -1,7 +1,8 @@
 import mainPrice from "@/helpers/mainPrice";
 import Link from "next/link";
+import ProccedCheckout from "./ProccedCheckout";
 
-export default function OrderSummary({ total, items }) {
+export default function OrderSummary({ total, items, carts }) {
   const shippingFee = 40;
   const totalPrice = mainPrice(total);
   const alltotal = mainPrice(shippingFee + total);
@@ -30,9 +31,7 @@ export default function OrderSummary({ total, items }) {
         <p>৳ {alltotal}</p>
       </div>
       <div className="mt-4">
-        <Link href="/checkout" className="btn w-full !py-2">
-          Proceed To Checkout ({items})
-        </Link>
+        <ProccedCheckout items={items} carts={carts} />
       </div>
     </div>
   );

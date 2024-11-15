@@ -5,7 +5,7 @@ export default function AddressBox({ address, user }) {
     <div className="w-full mt-4">
       <div className="nav-border p-2 w-full">
         <div className="flex justify-between items-center">
-          <h2>Shipping &amp; Billing</h2>
+          <h2>Shipping Address</h2>
           <EditAddresButton />
         </div>
 

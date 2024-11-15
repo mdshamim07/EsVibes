@@ -6,7 +6,6 @@ import CommonProviders from "./src/providers/CommonProviders";
 import ToastContainer from "./components/ToastContainer";
 import ModalContainer from "./(pages)/tshirt/[slug]/_components/ModalContainer";
 import BuyModal from "./components/BuyModal/BuyModal";
-import { getProductById } from "./backend/actions";
 
 export const metadata = {
   title: "Esvibes - Home",

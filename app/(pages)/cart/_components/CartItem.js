@@ -1,7 +1,8 @@
-import formatePrice from "@/helpers/formatePrice";
 import mainPrice from "@/helpers/mainPrice";
 import Image from "next/image";
 import DeleteCartButton from "./DeleteCartButton";
+
+import EditCartButton from "./EditCartButton";
 
 export default function CartItem({
   thumbnail,
@@ -10,6 +11,8 @@ export default function CartItem({
   quantity,
   size,
   cartId,
+  productId,
+  mode,
 }) {
   const originalPrice = mainPrice(price);
   const totalPrice = mainPrice(price * quantity);
@@ -42,10 +45,16 @@ export default function CartItem({
         <span className="md:hidden text-xs"> Total Price :</span>
         <p className="text-gray-300  ml-2 text-xs">৳ {totalPrice}</p>
       </div>
-      <div className="col-span-12 md:col-span-2 flex items-center gap-2">
-        <button className="btn">Edit</button>
-        <DeleteCartButton cartId={cartId} />
-      </div>
+      {mode === "checkout" || (
+        <div className="col-span-12 md:col-span-2 flex items-center gap-2">
+          <EditCartButton
+            quantity={quantity}
+            size={size}
+            productId={productId}
+          />
+          <DeleteCartButton cartId={cartId} />
+        </div>
+      )}
     </div>
   );
 }

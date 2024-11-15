@@ -2,19 +2,30 @@ import { auth } from "@/auth";
 import { cartModel } from "../models/CartModel";
 import { ProductModel } from "../models/ProductModel";
 import formateMongo from "@/helpers/formateMongo";
-
+// const checkouts = {
+//   products : [
+//     {
+//       id : 1,
+// title : "",
+//  price : ""
+// productTotal : ""
+//       product :
+//       quantity : ,
+//       size : ,
+//     }
+//   ],
+// subtotal : 450,
+// total : ""
+// }
 export default async function getCartById() {
   try {
     const loggedAuth = await auth();
     const userId = loggedAuth?.user?.id;
-    const cartItem = await cartModel
-      .find({ userId: userId })
-
-      .populate({
-        path: "productId",
-        model: ProductModel,
-        select: ["thumbnail", "title"],
-      });
+    const cartItem = await cartModel.find({ userId: userId }).populate({
+      path: "productId",
+      model: ProductModel,
+      select: ["thumbnail", "title"],
+    });
 
     return formateMongo(cartItem);
   } catch (err) {

@@ -4,10 +4,10 @@ import CartItem from "./_components/CartItem";
 import OrderSummary from "./_components/OrderSummary";
 import getCartById from "@/app/backend/queries/getCartById";
 import Link from "next/link";
-import mainPrice from "@/helpers/mainPrice";
 
 export default async function page() {
   const carts = await getCartById();
+
   let totalPrice = carts.reduce((total, item) => {
     return total + item.price * item.quantity;
   }, 0);
@@ -30,6 +30,7 @@ export default async function page() {
                 carts &&
                 carts.map((cartItem) => (
                   <CartItem
+                    productId={cartItem?.productId}
                     cartId={cartItem?._id}
                     size={cartItem?.size}
                     title={cartItem?.productId?.title}
@@ -40,7 +41,7 @@ export default async function page() {
                   />
                 ))}
             </div>
-            <OrderSummary total={totalPrice} items={carts.length} />
+            <OrderSummary carts={carts} total={totalPrice} items={carts.length} />
           </>
         ) : (
           <div className="flex justify-center items-center flex-col gap-4 min-h-[50vh]">

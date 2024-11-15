@@ -50,10 +50,19 @@ export default function AddCart({ quantity, productId, size }) {
       setLoading(false);
     }
   };
+  let handler;
+  if (common?.mode === "update") {
+    handler = () => {
+      console.log("hello world");
+    };
+  } else {
+    handler = handleAddToCart;
+  }
+
   return (
     <SecondaryLoadingBtn
       loading={loading}
-      onClick={handleAddToCart}
+      onClick={handler}
       className="variable-btn flex items-center justify-between gap-2 border hover:bg-secondary"
     >
       <svg
@@ -72,7 +81,9 @@ export default function AddCart({ quantity, productId, size }) {
         <circle cx={19} cy={21} r={1} />
         <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
       </svg>
-      <span> Add to cart</span>
+      <span>
+        {common?.mode === "update" ? "Update to Cart" : " Add to cart"}
+      </span>
     </SecondaryLoadingBtn>
   );
 }
