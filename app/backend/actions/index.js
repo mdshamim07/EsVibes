@@ -11,6 +11,7 @@ import AddToCartQuery from "../queries/AddToCartQuery";
 import getProdcutById from "../queries/getProdcutById";
 import delteCartItemById from "../models/delteCartItemById";
 import getDiscount from "../queries/getDiscount";
+import placeOrderQuery from "../queries/placeOrderQuery";
 
 export async function createUserAction(userObject) {
   try {
@@ -221,10 +222,18 @@ export async function deleteCartItemById(cartId) {
     throw new Error(err.message);
   }
 }
-export async function minusCoupon(form) {
+export async function minusCoupon(couponCode) {
   try {
-    const couponCode = form.get("coupon");
     const response = await getDiscount(couponCode);
+    return response;
+  } catch (err) {
+    throw new Error(err.message);
+  }
+}
+
+export async function orderAction(parameter) {
+  try {
+    const response = await placeOrderQuery(parameter);
     return response;
   } catch (err) {
     throw new Error(err.message);

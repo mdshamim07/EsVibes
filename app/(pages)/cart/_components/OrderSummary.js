@@ -1,5 +1,5 @@
 import mainPrice from "@/helpers/mainPrice";
-import Link from "next/link";
+
 import ProccedCheckout from "./ProccedCheckout";
 
 export default function OrderSummary({ total, items, carts }) {
@@ -16,7 +16,7 @@ export default function OrderSummary({ total, items, carts }) {
       </div>
       <div className="flex justify-between items-center mt-2 text-gray-200">
         <p>Shipping Fee</p>
-        <p>৳ BDT {40}</p>
+        <p>৳ BDT {shippingFee}</p>
       </div>
       <div className="w-full flex justify-between gap-2 mt-4">
         <input

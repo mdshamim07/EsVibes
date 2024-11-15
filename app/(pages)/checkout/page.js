@@ -1,8 +1,5 @@
 import AnimationContainer from "@/app/components/AnimationContainer";
-import AddressBox from "./_components/AddressBox";
 
-import DeliveryOption from "./_components/DeliveryOption";
-import OrderSummaryBox from "./_components/OrderSummaryBox";
 import getCartById from "@/app/backend/queries/getCartById";
 import CartItem from "../cart/_components/CartItem";
 import CartHeader from "../cart/_components/CartHeader";
@@ -12,14 +9,28 @@ import AddressContent from "../(profile)/dashboard/address/_components/AddressCo
 import AddressContainer from "../(profile)/dashboard/address/_components/AddressContainer";
 import AddressField from "../(profile)/dashboard/address/_components/AddressField";
 import ActualAddress from "../(profile)/dashboard/address/_components/ActualAddress";
+import OrderContainer from "./_components/OrderContainer";
 
 export default async function page() {
   const { user } = await auth();
   const getUser = await UserCredentials(user?.id);
   const carts = await getCartById();
+  const items = carts.map((item) => {
+    return {
+      product: item.productId?._id,
+      quantity: item.quantity,
+      size: item?.size,
+    };
+  });
+
   let totalPrice = carts.reduce((total, item) => {
     return total + item.price * item.quantity;
   }, 0);
+  const orderObject = {
+    items: items,
+    address: getUser?.address,
+  };
+ 
   return (
     <AnimationContainer>
       <section className="min-h-screen py-[50px]">
@@ -45,20 +56,19 @@ export default async function page() {
               />
             ))}
         </div>
-        <div className="flex flex-col md:flex-row justify-between gap-2 mt-4">
-          <div className="w-full md:w-[60%]">
-            <AddressContent user={getUser} address={getUser?.address}>
-              <AddressContainer>
-                <AddressField mode="city" />
-                <AddressField />
-                <ActualAddress address={getUser?.address} />
-              </AddressContainer>
-            </AddressContent>
-            <DeliveryOption />
-          </div>
-          {/* products cart section end */}
-          <OrderSummaryBox totalPrice={totalPrice} items={carts.length} />
-        </div>
+        <OrderContainer
+          orderObject={orderObject}
+          totalPrice={totalPrice}
+          items={carts.length}
+        >
+          <AddressContent user={getUser} address={getUser?.address}>
+            <AddressContainer>
+              <AddressField mode="city" />
+              <AddressField />
+              <ActualAddress address={getUser?.address} />
+            </AddressContainer>
+          </AddressContent>
+        </OrderContainer>
       </section>
     </AnimationContainer>
   );
