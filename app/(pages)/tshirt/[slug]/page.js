@@ -45,6 +45,8 @@ export default async function page({ params }) {
               title={product?.title}
             />
             <ProductContent
+              id={product?._id}
+              sizes={product?.sizes}
               description={product?.description}
               title={product?.title}
               price={price}

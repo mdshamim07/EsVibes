@@ -9,6 +9,7 @@ import DeleteAccountQuery from "../queries/DeleteAccountQuery";
 import UpdateAddressQuery from "../queries/UpdateAddressQuery";
 import AddToCartQuery from "../queries/AddToCartQuery";
 import getProdcutById from "../queries/getProdcutById";
+import delteCartItemById from "../models/delteCartItemById";
 
 export async function createUserAction(userObject) {
   try {
@@ -207,7 +208,15 @@ export async function getProductByIdAction(productId) {
   }
 }
 
-
-export async function deleteCartItemById(cartId){
-  console.log(cartId)
+export async function deleteCartItemById(cartId) {
+  try {
+    const result = await delteCartItemById(cartId);
+    if (result.ok) {
+      revalidatePath("/");
+      return result;
+    }
+    return result;
+  } catch (err) {
+    throw new Error(err.message);
+  }
 }

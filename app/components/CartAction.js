@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export default function CartAction() {
+export default function CartAction({ count }) {
   const pathName = usePathname();
   const isActive = pathName === "/cart";
   return (
@@ -16,7 +16,7 @@ export default function CartAction() {
         htmlFor=""
         className="absolute top-[-10px] right-[-10px] bg-white w-[20px] h-[20px] rounded-full text-black text-xs flex justify-center items-center"
       >
-        0
+        {count}
       </label>
       <svg
         xmlns="http://www.w3.org/2000/svg"
