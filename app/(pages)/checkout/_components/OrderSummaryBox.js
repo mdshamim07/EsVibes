@@ -3,12 +3,14 @@ import LoadingBtn from "@/app/_components/LoadingBtn";
 import { minusCoupon, orderAction } from "@/app/backend/actions";
 import mainPrice from "@/helpers/mainPrice";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function OrderSummaryBox({
   totalPrice,
   items,
   orderObject,
+  cartIds,
   payment,
 }) {
   const shipping = 40;
@@ -16,7 +18,9 @@ export default function OrderSummaryBox({
   const [total, setTotal] = useState(totalPrice);
   const [discount, setDiscount] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [load, setLoad] = useState(false);
   const [error, setError] = useState(null);
+  const router = useRouter();
   const discountAction = async () => {
     try {
       setLoading(true);
@@ -37,7 +41,20 @@ export default function OrderSummaryBox({
     }
   };
   const handlePlaceOrder = async () => {
-    const response = await orderAction({ ...orderObject, payment, discount });
+    try {
+      setLoad(true);
+      const response = await orderAction(
+        { ...orderObject, payment, discount },
+        cartIds
+      );
+      if (response.ok) {
+        router.push("/order-success");
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoad(false);
+    }
   };
   return (
     <div className="w-full h-[270px] md:w-[40%] bg-secondary p-4 mt-6">
@@ -79,9 +96,13 @@ export default function OrderSummaryBox({
         <p>৳ {mainPrice(total + shipping)}</p>
       </div>
       <div className="mt-2">
-        <button onClick={handlePlaceOrder} className="btn w-full !py-2">
+        <LoadingBtn
+          loading={load}
+          customClass="w-full !py-2 mt-2"
+          onEvent={handlePlaceOrder}
+        >
           Place Order({items})
-        </button>
+        </LoadingBtn>
       </div>
     </div>
   );

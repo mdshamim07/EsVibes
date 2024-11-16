@@ -1,4 +1,5 @@
 import AnimationContainer from "@/app/components/AnimationContainer";
+import Link from "next/link";
 
 export default function page() {
   return (
@@ -26,7 +27,13 @@ export default function page() {
             Transaction ID :{" "}
             <span className="text-gray-300">1708031724431131</span>
           </p>
-          <button className="btn mt-2">Download Invoice</button>
+          <div className="flex items-center gap-2 mt-2">
+            {" "}
+            <button className="btn ">Download Invoice</button>
+            <Link href="/dashboard/orders" className="variable-btn nav-border ">
+              My Orders
+            </Link>
+          </div>
         </div>
       </div>
     </AnimationContainer>

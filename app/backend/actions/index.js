@@ -231,10 +231,15 @@ export async function minusCoupon(couponCode) {
   }
 }
 
-export async function orderAction(parameter) {
+export async function orderAction(parameter, cartIds) {
   try {
-    const response = await placeOrderQuery(parameter);
-    return response;
+    const response = await placeOrderQuery(parameter, cartIds);
+    if (response.ok) {
+      revalidatePath("/");
+      return response;
+    } else {
+      return response;
+    }
   } catch (err) {
     throw new Error(err.message);
   }

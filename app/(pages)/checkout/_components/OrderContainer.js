@@ -7,6 +7,7 @@ export default function OrderContainer({
   totalPrice,
   items,
   orderObject,
+  cartIds,
 }) {
   const [payment, setPayment] = useState("bkash");
   return (
@@ -167,6 +168,7 @@ export default function OrderContainer({
       </div>
       {/* products cart section end */}
       <OrderSummaryBox
+        cartIds={cartIds}
         orderObject={orderObject}
         payment={payment}
         totalPrice={totalPrice}

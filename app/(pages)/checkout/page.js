@@ -30,7 +30,8 @@ export default async function page() {
     items: items,
     address: getUser?.address,
   };
- 
+  const cartIds = carts.map((cartItem) => cartItem?._id);
+
   return (
     <AnimationContainer>
       <section className="min-h-screen py-[50px]">
@@ -57,6 +58,7 @@ export default async function page() {
             ))}
         </div>
         <OrderContainer
+          cartIds={cartIds}
           orderObject={orderObject}
           totalPrice={totalPrice}
           items={carts.length}
