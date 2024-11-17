@@ -10,6 +10,7 @@ const orderSchema = new Schema(
           required: true,
         },
         quantity: { type: Number, required: true },
+        pirce: { type: Number, required: true },
         size: {
           type: String,
           required: true,
@@ -19,6 +20,13 @@ const orderSchema = new Schema(
     address: {
       type: Object,
       required: true,
+    },
+    delivered: {
+      type: String,
+      default: "Pending",
+    },
+    transactionId: {
+      type: String,
     },
     payment: { type: String, required: true },
     discount: { type: Number, default: 0 },

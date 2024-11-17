@@ -2,7 +2,7 @@
 import LoadingBtn from "@/app/_components/LoadingBtn";
 import { minusCoupon, orderAction } from "@/app/backend/actions";
 import mainPrice from "@/helpers/mainPrice";
-import Link from "next/link";
+
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 

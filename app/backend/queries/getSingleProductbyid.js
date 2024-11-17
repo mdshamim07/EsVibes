@@ -1,8 +1,8 @@
 import formateMongo from "@/helpers/formateMongo";
-import { dbConnect } from "../connection/dbConnect";
 import { ProductModel } from "../models/ProductModel";
+import { dbConnect } from "../connection/dbConnect";
 
-export default async function getProdcutById(id) {
+export default async function getSingleProductbyid(id) {
   await dbConnect();
   try {
     const getProduct = await ProductModel.findById(id).select([
@@ -10,7 +10,6 @@ export default async function getProdcutById(id) {
       "title",
       "price",
       "discount",
-      "sizes",
     ]);
     if (getProduct) {
       return {
