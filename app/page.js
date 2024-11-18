@@ -18,6 +18,7 @@ export default async function HomePage() {
           slug={event?.slug}
           ability={event?.ability}
           id={event?._id}
+          stock={event?.stock}
         />
         <HeroImage
           slug={event?.slug}

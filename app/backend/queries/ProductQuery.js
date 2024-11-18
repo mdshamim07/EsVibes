@@ -13,6 +13,8 @@ export async function getAllProducts() {
       description: 1,
       _id: 1,
       slug: 1,
+
+      stock: 1,
     });
     const result = formateMongo(response);
     return result;

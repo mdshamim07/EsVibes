@@ -5,13 +5,14 @@ import useCommonState from "../src/hooks/useCommonState";
 export default function CartModalAction({ id }) {
   const { common, setCommon } = useCommonState();
   const handleAdd = () => {
+   
     setCommon({
       ...common,
       buyModal: true,
       productId: id,
     });
   };
-  
+
   return (
     <button
       onClick={handleAdd}

@@ -22,6 +22,8 @@ export default async function ProductsSection() {
                 discount={product?.discount}
                 key={product?._id}
                 slug={product?.slug}
+                stock={product?.stock}
+                quantity={product?.quantity}
               />
             ))
           : "No Products Found!"}

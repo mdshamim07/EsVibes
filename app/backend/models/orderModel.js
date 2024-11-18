@@ -10,7 +10,7 @@ const orderSchema = new Schema(
           required: true,
         },
         quantity: { type: Number, required: true },
-        pirce: { type: Number, required: true },
+        price: { type: Number, required: true },
         size: {
           type: String,
           required: true,
@@ -27,6 +27,7 @@ const orderSchema = new Schema(
     },
     transactionId: {
       type: String,
+      required: true,
     },
     payment: { type: String, required: true },
     discount: { type: Number, default: 0 },

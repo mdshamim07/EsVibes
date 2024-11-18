@@ -48,6 +48,7 @@ const BuyModal = React.memo(function BuyModal() {
   }, [common?.productId, common?.buyModal, common?.size]);
 
   const increament = () => {
+    console.log(common?.quantity);
     setCount(count + 1);
   };
   const decrement = () => {
@@ -68,7 +69,7 @@ const BuyModal = React.memo(function BuyModal() {
                 buyModal: false,
                 productId: "",
                 mode: "",
-                quantity: false,
+                quantity: 0,
                 size: "",
               })
             }
@@ -120,7 +121,6 @@ const BuyModal = React.memo(function BuyModal() {
                   className="w-[100px] h-[100px] rounded-sm"
                   src={product.thumbnail}
                   alt={product.title}
-                  priority // Set priority to avoid lazy loading
                 />
               )}
             </div>

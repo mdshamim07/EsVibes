@@ -1,15 +1,26 @@
+import mainPrice from "@/helpers/mainPrice";
 import OrderItem from "./OrderItem";
 
-export default function OrderMainItem({ items, payment }) {
+export default function OrderMainItem({ items, payment, orderId, status }) {
+  console.log(status);
+  let totalPrice = items.reduce((total, item) => {
+    return total + item.price * item.quantity;
+  }, 0);
   return (
     <div className="mt-4 nav-border p-3">
       <div className="flex items-center gap-2">
         <h1>Delivered</h1>
-        <button className="variable-btn bg-[#0da487]">Success</button>
+        <button
+          className={`${
+            status === "Pending" ? "bg-red-500" : "bg-[#0da487]"
+          } variable-btn `}
+        >
+          {status}
+        </button>
       </div>
       <div className="flex flex-col md:flex-row  justify-between">
         <p>
-          Order ID : <span className="text-gray-300">1708031724431131</span>
+          Order ID : <span className="text-gray-300">{orderId}</span>
         </p>
         <button className="variable-btn bg-red-600 hover:bg-red-500">
           Cancel Order
@@ -19,6 +30,12 @@ export default function OrderMainItem({ items, payment }) {
         Payment Method :
         <span className="text-gray-300 ml-2 capitalize">
           {payment === "cod" ? "Cash on delivery" : payment}
+        </span>
+      </p>
+      <p className="text-sm">
+        Total Ammount :
+        <span className="text-gray-300 ml-2 capitalize">
+          {mainPrice(totalPrice)}
         </span>
       </p>
       {items.map((item, index) => (

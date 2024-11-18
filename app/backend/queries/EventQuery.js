@@ -9,7 +9,15 @@ export default async function EventQuery() {
     const response = await EventsModel.find({}).populate({
       path: "product",
       model: ProductModel,
-      select: ["title", "price", "discount", "ability", "thumbnail", "slug"],
+      select: [
+        "title",
+        "price",
+        "discount",
+        "ability",
+        "thumbnail",
+        "slug",
+        "stock",
+      ],
     });
     return formateMongo(response[0]);
   } catch (err) {

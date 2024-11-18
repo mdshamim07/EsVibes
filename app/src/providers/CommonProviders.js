@@ -14,7 +14,7 @@ export default function CommonProviders({ children }) {
     productId: "",
     toastSuccess: true,
     mode: "",
-    quantity: false,
+    quantity: 0,
   });
 
   return (
