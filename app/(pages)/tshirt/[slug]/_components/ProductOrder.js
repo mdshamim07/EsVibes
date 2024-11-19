@@ -1,6 +1,8 @@
 "use client";
 
 import AddCart from "@/app/components/AddCart";
+import BuyNowButton from "@/app/components/BuyNowButton";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function ProductOrder({ sizes, productId }) {
@@ -44,7 +46,10 @@ export default function ProductOrder({ sizes, productId }) {
         </button>
       </div>
       <div className="mt-4 flex items-center gap-3">
-        <button className="btn flex justify-between items-center gap-3 border">
+        <Link
+          href={`/checkout?size=${activeSize}&quantity=${count}&product=${productId}`}
+          className="btn flex justify-between items-center gap-3 border"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width={16}
@@ -62,7 +67,7 @@ export default function ProductOrder({ sizes, productId }) {
             <path d="M16 10a4 4 0 0 1-8 0" />
           </svg>
           <span>Buy now</span>
-        </button>
+        </Link>
         <AddCart size={activeSize} quantity={count} productId={productId} />
       </div>
     </>

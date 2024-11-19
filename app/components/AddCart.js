@@ -1,15 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { addTocartAction } from "../backend/actions";
+import { addTocartAction, updateCart } from "../backend/actions";
 import useCommonState from "../src/hooks/useCommonState";
 import SecondaryLoadingBtn from "./SecondaryLoadingBtn";
-import { useRouter } from "next/navigation";
 
 export default function AddCart({ quantity, productId, size }) {
   const { common, setCommon } = useCommonState();
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
+
   const handleAddToCart = async () => {
     try {
       setCommon({
@@ -26,18 +25,17 @@ export default function AddCart({ quantity, productId, size }) {
           buyModal: false,
           toastMessage: response?.message,
           toastSuccess: true,
+          quantity: 1,
         });
-        router.push("/cart");
       } else {
         setCommon({
           ...common,
           toastSuccess: false,
           toast: true,
           buyModal: false,
-
+          quantity: 1,
           toastMessage: response?.message,
         });
-        router.push("/cart");
       }
     } catch (err) {
       setCommon({
@@ -52,8 +50,26 @@ export default function AddCart({ quantity, productId, size }) {
   };
   let handler;
   if (common?.mode === "update") {
-    handler = () => {
-      console.log("hello world");
+    handler = async () => {
+      try {
+        setLoading(true);
+        const result = await updateCart(common?.cartId, { quantity, size });
+        if (result.ok) {
+          setCommon({
+            ...common,
+            toast: true,
+            buyModal: false,
+            productId: "",
+            mode: "",
+            quantity: 1,
+            toastMessage: result?.message,
+          });
+        }
+      } catch (err) {
+        throw new Error(err.message);
+      } finally {
+        setLoading(false);
+      }
     };
   } else {
     handler = handleAddToCart;

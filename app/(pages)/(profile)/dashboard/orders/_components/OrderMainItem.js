@@ -2,7 +2,6 @@ import mainPrice from "@/helpers/mainPrice";
 import OrderItem from "./OrderItem";
 
 export default function OrderMainItem({ items, payment, orderId, status }) {
-  console.log(status);
   let totalPrice = items.reduce((total, item) => {
     return total + item.price * item.quantity;
   }, 0);
@@ -35,7 +34,7 @@ export default function OrderMainItem({ items, payment, orderId, status }) {
       <p className="text-sm">
         Total Ammount :
         <span className="text-gray-300 ml-2 capitalize">
-          {mainPrice(totalPrice)}
+          {mainPrice(totalPrice + 40)}
         </span>
       </p>
       {items.map((item, index) => (

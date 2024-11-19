@@ -1,35 +1,45 @@
-export default function CheckoutItem() {
+import formatePrice from "@/helpers/formatePrice";
+import mainPrice from "@/helpers/mainPrice";
+import Image from "next/image";
+
+export default function CheckoutItem({
+  thumbnail,
+  title,
+  price,
+  quantity,
+  size,
+  discount,
+}) {
+  const originalPrice = formatePrice(price, discount);
+  const totalPrice = mainPrice(price - discount * quantity);
+
   return (
-    <div className="mt-4">
-      <div className="grid nav-border grid-cols-12 gap-4 shadow-lg p-2">
-        <img
-          className="col-span-12 md:col-span-1 w-[80px] h-[80px] object-cover"
-          src="https://fabrilife.com/products/6382185fc301d-square.jpg?v=20"
-          alt=""
-        />
-        <div className="col-span-12 md:col-span-5 flex items-center">
-          <h1>
-            Fabrilife Mens Premium Designer Edition Full Sleeve T Shirt - 786
-          </h1>
-        </div>
-        <div className="col-span-6 md:col-span-1 flex items-center">
-          <span className="md:hidden"> Price :</span>
-          <p className="text-gray-300 text-sm ml-2">৳ 750</p>
-        </div>
-        <div className="col-span-6 md:col-span-1 flex items-center">
-          <span className="md:hidden"> Quantity :</span>
-          <p className="text-gray-300 text-sm ml-2">40</p>
-        </div>
-        <div className="col-span-12 md:col-span-1 flex items-center">
-          <span className="md:hidden"> Total Price :</span>
-          <p className="text-gray-300 text-sm ml-2">৳ 780</p>
-        </div>
-        <div className="col-span-12 md:col-span-3 flex items-center gap-2">
-          <button className="btn">Edit</button>
-          <button className="variable-btn bg-red-600 hover:bg-red-400">
-            Delete
-          </button>
-        </div>
+    <div className="grid mt-2 nav-border grid-cols-12 gap-4 shadow-lg p-2">
+      <Image
+        width={80}
+        height={80}
+        className="col-span-12 md:col-span-1 w-[80px] h-[80px] object-cover"
+        src={thumbnail}
+        alt={title}
+      />
+      <div className="col-span-12 md:col-span-3 flex items-center justify-center">
+        <h1 className="text-center ">{title}</h1>
+      </div>
+      <div className="col-span-6 md:col-span-2 flex text-center justify-center items-center">
+        <span className="md:hidden text-xs"> Price :</span>
+        <p className="text-gray-300 text-xs ml-2">৳ {originalPrice}</p>
+      </div>
+      <div className="col-span-6 md:col-span-1 text-center flex items-center">
+        <span className="md:hidden"> Quantity :</span>
+        <p className="text-gray-300 text-xs ml-2">{quantity}</p>
+      </div>
+      <div className="col-span-6 md:col-span-1  text-center flex justify-center items-center">
+        <span className="md:hidden"> Size :</span>
+        <p className="text-gray-300 text-xs ml-2">{size}</p>
+      </div>
+      <div className="col-span-12 md:col-span-2 flex text-center justify-center items-center">
+        <span className="md:hidden text-xs"> Total Price :</span>
+        <p className="text-gray-300  ml-2 text-xs">৳ {totalPrice}</p>
       </div>
     </div>
   );

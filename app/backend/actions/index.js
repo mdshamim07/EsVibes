@@ -12,6 +12,7 @@ import getProdcutById from "../queries/getProdcutById";
 import delteCartItemById from "../models/delteCartItemById";
 import getDiscount from "../queries/getDiscount";
 import placeOrderQuery from "../queries/placeOrderQuery";
+import updateCartQuery from "../queries/updateCartQuery";
 
 export async function createUserAction(userObject) {
   try {
@@ -231,9 +232,9 @@ export async function minusCoupon(couponCode) {
   }
 }
 
-export async function orderAction(parameter, cartIds) {
+export async function orderAction(parameter, cartIds, mode) {
   try {
-    const response = await placeOrderQuery(parameter, cartIds);
+    const response = await placeOrderQuery(parameter, cartIds, mode);
     if (response.ok) {
       revalidatePath("/");
       return response;
@@ -242,5 +243,14 @@ export async function orderAction(parameter, cartIds) {
     }
   } catch (err) {
     throw new Error(err.message);
+  }
+}
+export async function updateCart(updatedId, updatedData) {
+  try {
+    const response = await updateCartQuery(updatedId, updatedData);
+    revalidatePath("/");
+    return response;
+  } catch (err) {
+    throw new Error("Something went wrong while updating cart");
   }
 }

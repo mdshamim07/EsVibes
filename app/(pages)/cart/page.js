@@ -34,6 +34,7 @@ export default async function page() {
                     cartId={cartItem?._id}
                     size={cartItem?.size}
                     title={cartItem?.productId?.title}
+                    stock={cartItem?.stock}
                     thumbnail={cartItem?.productId?.thumbnail}
                     price={cartItem?.price}
                     quantity={cartItem?.quantity}
@@ -41,7 +42,11 @@ export default async function page() {
                   />
                 ))}
             </div>
-            <OrderSummary carts={carts} total={totalPrice} items={carts.length} />
+            <OrderSummary
+              carts={carts}
+              total={totalPrice}
+              items={carts.length}
+            />
           </>
         ) : (
           <div className="flex justify-center items-center flex-col gap-4 min-h-[50vh]">

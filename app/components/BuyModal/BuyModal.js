@@ -8,12 +8,14 @@ import { useEffect, useState, useMemo } from "react";
 import React from "react";
 import AddCart from "../AddCart";
 import mainPrice from "@/helpers/mainPrice";
+import Link from "next/link";
 
 const BuyModal = React.memo(function BuyModal() {
   const { common, setCommon } = useCommonState();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
   const [count, setCount] = useState(common?.quantity ? common?.quantity : 1);
 
   const [activeSize, setActiveSize] = useState("");
@@ -48,8 +50,9 @@ const BuyModal = React.memo(function BuyModal() {
   }, [common?.productId, common?.buyModal, common?.size]);
 
   const increament = () => {
-    console.log(common?.quantity);
-    setCount(count + 1);
+    if (count !== common?.stock) {
+      setCount(count + 1);
+    }
   };
   const decrement = () => {
     if (count > 1) {
@@ -63,16 +66,19 @@ const BuyModal = React.memo(function BuyModal() {
       <div className="bg-secondary p-3 w-[600px] rounded-sm">
         <div className="flex justify-end w-[95%] ">
           <button
-            onClick={() =>
+            onClick={() => {
               setCommon({
                 ...common,
                 buyModal: false,
                 productId: "",
                 mode: "",
-                quantity: 0,
+                quantity: 1,
                 size: "",
-              })
-            }
+              });
+
+              setError(null);
+              setCount(1);
+            }}
             className="hover:bg-black flex justify-center items-center cursor-pointer w-[25px] h-[25px] rounded-full"
           >
             <svg
@@ -149,6 +155,11 @@ const BuyModal = React.memo(function BuyModal() {
                   +
                 </button>
               </div>
+              {common?.stock <= 10 && (
+                <p className="text-red-600 text-xs mt-2">
+                  Only {common?.stock} Items Availible
+                </p>
+              )}
               <div className="mt-4 text-sm flex items-center gap-2">
                 {product?.sizes?.map((size, index) => (
                   <button
@@ -164,7 +175,20 @@ const BuyModal = React.memo(function BuyModal() {
               </div>
               <div className="mt-4 flex items-center gap-3">
                 {common?.mode !== "update" && (
-                  <button className="btn flex justify-between items-center gap-3 border">
+                  <Link
+                    onClick={() =>
+                      setCommon({
+                        ...common,
+                        buyModal: false,
+                        productId: "",
+                        mode: "",
+                        quantity: 1,
+                        size: "",
+                      })
+                    }
+                    href={`/checkout?size=${activeSize}&quantity=${count}&product=${common?.productId}`}
+                    className="btn flex justify-between items-center gap-3 border"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width={16}
@@ -182,7 +206,7 @@ const BuyModal = React.memo(function BuyModal() {
                       <path d="M16 10a4 4 0 0 1-8 0" />
                     </svg>
                     <span>Buy now</span>
-                  </button>
+                  </Link>
                 )}
                 <AddCart
                   productId={common?.productId}

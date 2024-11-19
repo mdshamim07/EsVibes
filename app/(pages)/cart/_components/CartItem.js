@@ -11,9 +11,11 @@ export default function CartItem({
   quantity,
   size,
   cartId,
+  stock,
   productId,
   mode,
 }) {
+ 
   const originalPrice = mainPrice(price);
   const totalPrice = mainPrice(price * quantity);
 
@@ -50,6 +52,8 @@ export default function CartItem({
           <EditCartButton
             quantity={quantity}
             size={size}
+            cartId={cartId}
+            stock={stock}
             productId={productId}
           />
           <DeleteCartButton cartId={cartId} />

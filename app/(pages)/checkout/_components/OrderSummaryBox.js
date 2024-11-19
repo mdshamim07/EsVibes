@@ -11,6 +11,7 @@ export default function OrderSummaryBox({
   items,
   orderObject,
   cartIds,
+  mode,
   payment,
 }) {
   const shipping = 40;
@@ -21,6 +22,7 @@ export default function OrderSummaryBox({
   const [load, setLoad] = useState(false);
   const [error, setError] = useState(null);
   const router = useRouter();
+
   const discountAction = async () => {
     try {
       setLoading(true);
@@ -45,10 +47,11 @@ export default function OrderSummaryBox({
       setLoad(true);
       const response = await orderAction(
         { ...orderObject, payment, discount },
-        cartIds
+        cartIds,
+        mode
       );
       if (response.ok) {
-        router.push("/order-success");
+        router.push(`/order-success?transactionId=${response?.transactionId}`);
       }
     } catch (err) {
       setError(err.message);

@@ -1,7 +1,8 @@
 import AnimationContainer from "@/app/components/AnimationContainer";
 import Link from "next/link";
 
-export default function page() {
+export default async function page({ searchParams }) {
+  const params = await searchParams;
   return (
     <AnimationContainer>
       <div className="flex justify-center items-center flex-col min-h-[70vh]">
@@ -25,7 +26,7 @@ export default function page() {
           <p>Payment Is Successfully And Your Order Is On The Way</p>
           <p>
             Transaction ID :{" "}
-            <span className="text-gray-300">1708031724431131</span>
+            <span className="text-gray-300">{params?.transactionId}</span>
           </p>
           <div className="flex items-center gap-2 mt-2">
             {" "}

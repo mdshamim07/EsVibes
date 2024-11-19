@@ -51,6 +51,7 @@ export default async function page({ params }) {
               title={product?.title}
               price={price}
               discount={product?.discount}
+              stock={product?.stock}
               originalPrice={product?.price}
               ability={product?.ability}
             />

@@ -6,8 +6,7 @@ import { ProductModel } from "../models/ProductModel";
 
 import generateNumber from "@/helpers/generateNumber";
 
-export default async function placeOrderQuery(params, cartIds) {
-  console.log(params);
+export default async function placeOrderQuery(params, cartIds, mode) {
   try {
     // Connect to the database
     await dbConnect();
@@ -53,24 +52,27 @@ export default async function placeOrderQuery(params, cartIds) {
       user: loggedAuth?.user?.id,
       transactionId: generateNumber(),
     };
-    console.log(updatedObject);
+
 
     // Create the order
     const response = await orderModel.create(updatedObject);
 
     // If the order is successfully created, delete cart items
-    if (response) {
+    if (mode === "indirect") {
       const deleteQuery = await cartModel.deleteMany({ _id: { $in: cartIds } });
       if (deleteQuery.deletedCount === cartIds.length) {
         return {
           ok: true,
           message: "Successfully placed order!",
+          transactionId: generateNumber(),
         };
-      } else {
-        throw new Error("Some cart items could not be deleted.");
       }
     } else {
-      throw new Error("Failed to create order.");
+      return {
+        ok: true,
+        message: "Successfully placed order!",
+        transactionId: generateNumber(),
+      };
     }
   } catch (err) {
     console.error("Error in placeOrderQuery:", err.message || err);

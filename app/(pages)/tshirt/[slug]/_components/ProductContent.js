@@ -8,6 +8,7 @@ export default function ProductContent({
   discount,
   ability,
   sizes,
+  stock,
   id,
 }) {
   return (
@@ -29,7 +30,7 @@ export default function ProductContent({
           </ul>
         </div>
       )}
-      <ProductOrder sizes={sizes} productId={id} />
+      <ProductOrder stock={stock} sizes={sizes} productId={id} />
     </div>
   );
 }
