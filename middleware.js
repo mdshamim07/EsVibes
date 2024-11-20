@@ -6,18 +6,23 @@ const { auth } = NextAuth(authConfig);
 
 export default auth((req) => {
   const { nextUrl } = req;
-  const isAuthenticated = !!req.auth;
+  const isAuthenticated = !!req.auth; // Check if the user is authenticated
+  const currentPath = nextUrl.pathname;
 
+  // Check if the current route is public
   const isPublicRoute =
-    PUBLIC_ROUTES.find((route) => nextUrl.pathname.startsWith(route)) ||
-    nextUrl.pathname === ROOT;
+    PUBLIC_ROUTES.some((route) => currentPath.startsWith(route)) ||
+    currentPath === ROOT;
 
-  // Redirect to home page if the user is logged in and tries to access the login page
-  if (isAuthenticated && nextUrl.pathname === LOGIN) {
+  // Redirect authenticated users from login or register pages to the home page
+  if (
+    isAuthenticated &&
+    (currentPath === LOGIN || PUBLIC_ROUTES.includes(currentPath))
+  ) {
     return Response.redirect(new URL(ROOT, nextUrl));
   }
 
-  // Redirect to login page if not authenticated and trying to access a protected route
+  // Redirect unauthenticated users from protected routes to the login page
   if (!isAuthenticated && !isPublicRoute) {
     return Response.redirect(new URL(LOGIN, nextUrl));
   }

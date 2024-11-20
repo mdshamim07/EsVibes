@@ -4,29 +4,24 @@ import { useEffect, useRef, useState } from "react";
 export default function AnimationContainer({ children }) {
   const [isInView, setIsInView] = useState(false);
   const animRef = useRef(null);
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsInView(true);
-        } else {
-          setIsInView(false); // Set to false when it goes out of view
-        }
+        setIsInView(entry.isIntersecting); // Update state based on visibility
       },
       { threshold: 0.1 }
     );
 
-    if (animRef.current) {
-      observer.observe(animRef.current);
+    const currentRef = animRef.current;
+
+    if (currentRef) {
+      observer.observe(currentRef);
     }
 
     return () => {
-      if (animRef.current) {
-        observer.unobserve(animRef.current);
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
     };
   }, []);

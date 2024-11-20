@@ -1,5 +1,4 @@
 import AnimationContainer from "@/app/components/AnimationContainer";
-import LogInWithGoogle from "@/app/components/LogInWithGoogle";
 import Link from "next/link";
 import LoginForm from "./_components/LoginForm";
 
@@ -15,7 +14,7 @@ export default function page() {
               special deals, and new arrivals!
             </p>
           </div>
-          <LogInWithGoogle />
+
           <LoginForm>
             <p className="text-sm mt-4 text-gray-300">
               New Here ?

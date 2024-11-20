@@ -12,6 +12,7 @@ export const {
   signOut,
 } = NextAuth({
   ...authConfig,
+
   providers: [
     CredentialsProvider({
       credentials: {
@@ -45,11 +46,9 @@ export const {
         }
       },
     }),
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    }),
   ],
+  trustHost: true,
+  trustHostedDomain: true,
   callbacks: {
     async jwt({ token, user }) {
       if (user) {

@@ -1,5 +1,5 @@
 import AnimationContainer from "@/app/components/AnimationContainer";
-import LogInWithGoogle from "@/app/components/LogInWithGoogle";
+
 import Link from "next/link";
 import RegisterForm from "./_components/RegisterForm";
 
@@ -15,7 +15,7 @@ export default function page() {
               special deals, and new arrivals!
             </p>
           </div>
-          <LogInWithGoogle />
+
           <RegisterForm>
             <div>
               <p className="text-sm mt-4 text-gray-300">
