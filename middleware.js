@@ -14,12 +14,17 @@ export default auth((req) => {
     PUBLIC_ROUTES.some((route) => currentPath.startsWith(route)) ||
     currentPath === ROOT;
 
-  // Redirect authenticated users from login or register pages to the home page
+  // Redirect authenticated users only from login or register pages
   if (
     isAuthenticated &&
-    (currentPath === LOGIN || PUBLIC_ROUTES.includes(currentPath))
+    (currentPath === LOGIN || currentPath === "/register")
   ) {
     return Response.redirect(new URL(ROOT, nextUrl));
+  }
+
+  // Allow authenticated users to access public routes like /goodbye or /shop
+  if (isAuthenticated && isPublicRoute) {
+    return;
   }
 
   // Redirect unauthenticated users from protected routes to the login page

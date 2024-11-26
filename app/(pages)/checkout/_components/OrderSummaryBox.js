@@ -1,6 +1,7 @@
 "use client";
 import LoadingBtn from "@/app/_components/LoadingBtn";
 import { minusCoupon, orderAction } from "@/app/backend/actions";
+import useCommonState from "@/app/src/hooks/useCommonState";
 import mainPrice from "@/helpers/mainPrice";
 
 import { useRouter } from "next/navigation";
@@ -13,6 +14,7 @@ export default function OrderSummaryBox({
   cartIds,
   mode,
   payment,
+  address,
 }) {
   const shipping = 40;
   const [coupon, setCoupon] = useState("");
@@ -22,6 +24,7 @@ export default function OrderSummaryBox({
   const [load, setLoad] = useState(false);
   const [error, setError] = useState(null);
   const router = useRouter();
+  const { common, setCommon } = useCommonState();
 
   const discountAction = async () => {
     try {
@@ -45,13 +48,24 @@ export default function OrderSummaryBox({
   const handlePlaceOrder = async () => {
     try {
       setLoad(true);
-      const response = await orderAction(
-        { ...orderObject, payment, discount },
-        cartIds,
-        mode
-      );
-      if (response.ok) {
-        router.push(`/order-success?transactionId=${response?.transactionId}`);
+      if (!address) {
+        setCommon({
+          ...common,
+          toast: true,
+          toastSuccess: false,
+          toastMessage: "Please Save address first!",
+        });
+      } else {
+        const response = await orderAction(
+          { ...orderObject, payment, discount },
+          cartIds,
+          mode
+        );
+        if (response.ok) {
+          router.push(
+            `/order-success?transactionId=${response?.transactionId}`
+          );
+        }
       }
     } catch (err) {
       setError(err.message);
@@ -100,6 +114,7 @@ export default function OrderSummaryBox({
       </div>
       <div className="mt-2">
         <LoadingBtn
+          address={address}
           loading={load}
           customClass="w-full !py-2 mt-2"
           onEvent={handlePlaceOrder}

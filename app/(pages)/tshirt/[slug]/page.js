@@ -6,6 +6,9 @@ import ProductImage from "./_components/ProductImage";
 import getProductBySlug from "@/app/backend/queries/getProductById";
 import formatePrice from "@/helpers/formatePrice";
 import getReviews from "@/app/backend/queries/getReviews";
+import CommentsContainer from "./_components/CommentsContainer";
+import isReviewd from "@/app/backend/queries/isReviewd";
+import AddComment from "./_components/AddComment";
 
 export default async function page({ params }) {
   const param = await params;
@@ -13,6 +16,8 @@ export default async function page({ params }) {
 
   const price = formatePrice(product?.price, product?.discount);
   const reviews = await getReviews(product?._id);
+  const rev = await isReviewd(product?._id);
+
   return (
     <AnimationContainer>
       {product.ok === false ? (
@@ -56,34 +61,8 @@ export default async function page({ params }) {
               ability={product?.ability}
             />
           </section>
-          <section className="py-[50px]">
-            <h1>Customer Review</h1>
-            {/* <div className="review-imgs mt-4 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-6 gap-2">
-        <div className="w-full h-full overflow-hidden transition-all duration-150">
-          <img
-            className="cursor-pointer w-full h-full object-cover hover:scale-110 transition-all duration-150"
-            src="https://fabrilife.com/products/6382185fc301d-square.jpg?v=20"
-            alt=""
-          />
-        </div>
-        <div className="w-full h-full overflow-hidden transition-all duration-150">
-          <img
-            className="cursor-pointer w-full h-full object-cover transition-all duration-150 hover:scale-110"
-            src="https://fabrilife.com/products/6382185fc301d-square.jpg?v=20"
-            alt=""
-          />
-        </div>
-      </div> */}
-            {reviews.length > 0 &&
-              reviews &&
-              reviews.map((review) => (
-                <CustomerReview
-                  key={review?._id}
-                  content={review?.content}
-                  userName={review?.user?.name}
-                />
-              ))}
-          </section>
+          {rev.ok && <AddComment product={product?._id} />}
+          <CommentsContainer reviews={reviews} />
 
           <AlsoLikes category={product?.category} />
         </div>

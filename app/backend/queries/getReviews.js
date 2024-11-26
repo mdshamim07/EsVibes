@@ -4,13 +4,13 @@ import { UserModel } from "../models/UserModel";
 
 export default async function getReviews(productId) {
   try {
-    const response = await ReviewsModel.find({ productId: productId }).populate(
-      {
+    const response = await ReviewsModel.find({ productId: productId })
+      .populate({
         path: "user",
         model: UserModel,
         select: "name",
-      }
-    );
+      })
+      .sort({ createdAt: -1 });
 
     return formateMongo(response);
   } catch (err) {

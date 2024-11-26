@@ -52,6 +52,7 @@ export default function PasswordInfo() {
           ...common,
           toast: true,
           toastMessage: "Successfully changed your password",
+          toastSuccess: true,
         });
       }
     } catch (err) {

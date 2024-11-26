@@ -108,6 +108,7 @@ export default async function page({ searchParams }) {
 
         {isBuy || carts.length > 0 ? (
           <OrderContainer
+            address={getUser?.address}
             cartIds={cartIds}
             mode={isBuy ? "direct" : "indirect"}
             orderObject={orderObject}

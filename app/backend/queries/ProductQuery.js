@@ -1,19 +1,18 @@
 import formateMongo from "@/helpers/formateMongo";
 import { dbConnect } from "../connection/dbConnect";
 import { ProductModel } from "../models/ProductModel";
-export async function getAllProducts(search = "", sort = "A-Z") {
+
+export async function getAllProducts(query) {
   try {
-    await dbConnect();
+    await dbConnect(); // Establish database connection
 
-    // Build query for search
-    const query = search ? { title: { $regex: search, $options: "i" } } : {};
+    let allProducts = [];
 
-    // Build sorting logic
-    const sortOrder =
-      sort === "A-Z" ? { title: 1 } : sort === "Z-A" ? { title: -1 } : {};
-
-    const response = await ProductModel.find(query)
-      .select({
+    if (query) {
+      const regex = new RegExp(query, "i"); // Case-insensitive regex
+      allProducts = await ProductModel.find({
+        $or: [{ title: { $regex: regex } }, { description: { $regex: regex } }],
+      }).select({
         title: 1,
         price: 1,
         discount: 1,
@@ -22,11 +21,23 @@ export async function getAllProducts(search = "", sort = "A-Z") {
         _id: 1,
         slug: 1,
         stock: 1,
-      })
-      .sort(sortOrder);
+      });
+    } else {
+      allProducts = await ProductModel.find({}).select({
+        title: 1,
+        price: 1,
+        discount: 1,
+        thumbnail: 1,
+        description: 1,
+        _id: 1,
+        slug: 1,
+        stock: 1,
+      });
+    }
 
-    return formateMongo(response);
+    return formateMongo(allProducts); // Format the results
   } catch (err) {
+    console.error("Error fetching products:", err);
     throw new Error("Something went wrong while fetching products");
   }
 }

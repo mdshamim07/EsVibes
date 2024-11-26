@@ -30,7 +30,9 @@ export default async function page({ searchParams }) {
           </p>
           <div className="flex items-center gap-2 mt-2">
             {" "}
-            <button className="btn ">Download Invoice</button>
+            <Link href="/" className="btn ">
+              Home
+            </Link>
             <Link href="/dashboard/orders" className="variable-btn nav-border ">
               My Orders
             </Link>

@@ -21,9 +21,9 @@ export default function OrderMainItem({ items, payment, orderId, status }) {
         <p>
           Order ID : <span className="text-gray-300">{orderId}</span>
         </p>
-        <button className="variable-btn bg-red-600 hover:bg-red-500">
+        {/* <button className="variable-btn bg-red-600 hover:bg-red-500">
           Cancel Order
-        </button>
+        </button> */}
       </div>
       <p className="text-sm">
         Payment Method :
@@ -32,7 +32,7 @@ export default function OrderMainItem({ items, payment, orderId, status }) {
         </span>
       </p>
       <p className="text-sm">
-        Total Ammount :
+        Total Amount :
         <span className="text-gray-300 ml-2 capitalize">
           {mainPrice(totalPrice + 40)}
         </span>

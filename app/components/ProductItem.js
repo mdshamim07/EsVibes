@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import CartModalAction from "./CartModalAction";
 import BuyNowButton from "./BuyNowButton";
+import AnimationContainer from "./AnimationContainer";
 
 export default function ProductItem({
   title,
@@ -17,7 +18,7 @@ export default function ProductItem({
   const originalPrice = formatePrice(price, discount);
 
   return (
-    <div>
+    <AnimationContainer>
       <Link href={`/tshirt/${slug}`}>
         <Image
           className="w-full h-[300px] object-cover"
@@ -62,6 +63,6 @@ export default function ProductItem({
           </div>
         )}
       </div>
-    </div>
+    </AnimationContainer>
   );
 }
