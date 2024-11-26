@@ -1,6 +1,8 @@
 import AnimationContainer from "@/app/components/AnimationContainer";
 import Link from "next/link";
-
+export const metadata = {
+  title: "Esvibes - Order Success",
+};
 export default async function page({ searchParams }) {
   const params = await searchParams;
   return (

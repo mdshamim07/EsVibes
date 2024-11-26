@@ -4,7 +4,9 @@ import SortItem from "./_components/SortItem";
 import FilterItem from "./_components/FilterItem";
 import { getAllProducts } from "@/app/backend/queries/ProductQuery";
 import Searchbox from "./_components/Searchbox";
-
+export const metadata = {
+  title: "Esvibes - Shop",
+};
 export default async function Page({ searchParams }) {
   // Fetch products based on search and sort
   const { query } = await searchParams;

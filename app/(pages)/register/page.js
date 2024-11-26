@@ -2,7 +2,9 @@ import AnimationContainer from "@/app/components/AnimationContainer";
 
 import Link from "next/link";
 import RegisterForm from "./_components/RegisterForm";
-
+export const metadata = {
+  title: "Esvibes - Register",
+};
 export default function page() {
   return (
     <AnimationContainer>

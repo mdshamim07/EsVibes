@@ -9,7 +9,9 @@ import AddressContent from "./_components/AddressContent";
 import AddressContainer from "./_components/AddressContainer";
 import AddressField from "./_components/AddressField";
 import ActualAddress from "./_components/ActualAddress";
-
+export const metadata = {
+  title: "Esvibes - Address",
+};
 export default async function page() {
   const userAuth = await auth();
   const userId = userAuth?.user?.id;

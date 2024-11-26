@@ -1,6 +1,6 @@
 export default function loading() {
   return (
-    <main className="mt-6">
+    <main className="mt-6 min-h-screen">
       <div className="w-full flex gap-2">
         <div className="bg-gray-600 anim-bg w-full h-4" />
         <div className="bg-gray-600 anim-bg w-[100px] h-4" />

@@ -2,7 +2,9 @@ import getOrdersQuery from "@/app/backend/queries/getOrdersQuery";
 import AnimationContainer from "@/app/components/AnimationContainer";
 
 import OrderMainItem from "./_components/OrderMainItem";
-
+export const metadata = {
+  title: "Esvibes - Orders",
+};
 export default async function page() {
   const orders = await getOrdersQuery();
 

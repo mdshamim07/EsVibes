@@ -9,7 +9,14 @@ import getReviews from "@/app/backend/queries/getReviews";
 import CommentsContainer from "./_components/CommentsContainer";
 import isReviewd from "@/app/backend/queries/isReviewd";
 import AddComment from "./_components/AddComment";
-
+export async function generateMetadata({ params }) {
+  const param = await params;
+  const product = await getProductBySlug(param?.slug);
+  return {
+    title: `Esvibes - ${product.title}`,
+    description: product.description.slice(0, 150),
+  };
+}
 export default async function page({ params }) {
   const param = await params;
   const product = await getProductBySlug(param?.slug);

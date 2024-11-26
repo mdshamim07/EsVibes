@@ -4,7 +4,9 @@ import CartItem from "./_components/CartItem";
 import OrderSummary from "./_components/OrderSummary";
 import getCartById from "@/app/backend/queries/getCartById";
 import Link from "next/link";
-
+export const metadata = {
+  title: "Esvibes - Cart",
+};
 export default async function page() {
   const carts = await getCartById();
 

@@ -11,7 +11,9 @@ import { auth } from "@/auth";
 import getProdcutById from "@/app/backend/queries/getProdcutById";
 import UserCredentials from "@/app/src/UserCredentials";
 import getCartById from "@/app/backend/queries/getCartById";
-
+export const metadata = {
+  title: "Esvibes - Checkout",
+};
 export default async function page({ searchParams }) {
   const parameter = await searchParams;
   const { user } = await auth();

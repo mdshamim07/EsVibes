@@ -1,7 +1,9 @@
 import AnimationContainer from "@/app/components/AnimationContainer";
 import Link from "next/link";
 import LoginForm from "./_components/LoginForm";
-
+export const metadata = {
+  title: "Esvibes - Login",
+};
 export default function page() {
   return (
     <AnimationContainer>
@@ -24,6 +26,11 @@ export default function page() {
               Now
             </p>
           </LoginForm>
+          <div className="mt-4 ">
+            <h2 className="mb-2">Test User Credentials</h2>
+            <p className="text-sm text-gray-400">Phone : 01900000000</p>
+            <p className="text-sm text-gray-400">Password : 123456</p>
+          </div>
         </section>
       </main>
     </AnimationContainer>
