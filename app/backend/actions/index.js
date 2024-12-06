@@ -77,8 +77,8 @@ export async function createUserAction(userObject) {
 export async function ceredntialLogin(formData) {
   try {
     const response = await signIn("credentials", {
-      phone: formData.phone,
-      password: formData.password,
+      phone: formData.phone.trim(),
+      password: formData.password.trim(),
       redirect: false,
     });
     return response;
@@ -255,4 +255,3 @@ export async function updateCart(updatedId, updatedData) {
     throw new Error("Something went wrong while updating cart");
   }
 }
-

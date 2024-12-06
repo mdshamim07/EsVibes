@@ -16,7 +16,7 @@ export const metadata = {
 };
 export default async function page({ searchParams }) {
   const parameter = await searchParams;
-  const { user } = await auth();
+  const loggedUser = await auth();
   const isBuy = parameter?.size && parameter?.quantity && parameter?.product;
 
   // Fetch product data only when isBuy is true
@@ -25,9 +25,8 @@ export default async function page({ searchParams }) {
     const productData = await getProdcutById(parameter?.product);
     product = productData?.product || null;
   }
-
   // Fetch user credentials and cart data
-  const getUser = await UserCredentials(user?.id);
+  const getUser = loggedUser ? await UserCredentials(loggedUser?.user?.id) : {};
   const carts = await getCartById();
 
   // Handle items for the order
@@ -121,8 +120,6 @@ export default async function page({ searchParams }) {
           >
             <AddressContent user={getUser} address={getUser?.address}>
               <AddressContainer>
-                <AddressField mode="city" />
-                <AddressField />
                 <ActualAddress address={getUser?.address} />
               </AddressContainer>
             </AddressContent>
