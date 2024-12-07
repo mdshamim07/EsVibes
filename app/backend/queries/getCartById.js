@@ -7,11 +7,14 @@ export default async function getCartById() {
   try {
     const loggedAuth = await auth();
     const userId = loggedAuth?.user?.id;
-    const cartItem = await cartModel.find({ userId: userId }).populate({
-      path: "productId",
-      model: ProductModel,
-      select: ["thumbnail", "title", "discount", "stock"],
-    });
+    const cartItem = await cartModel
+      .find({ userId: userId })
+      .populate({
+        path: "productId",
+        model: ProductModel,
+        select: ["_id", , "price", "discount"],
+      })
+      .select(["productId", "quantity", "size"]);
 
     return formateMongo(cartItem);
   } catch (err) {

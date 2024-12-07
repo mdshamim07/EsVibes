@@ -6,6 +6,7 @@ import CommonProviders from "./src/providers/CommonProviders";
 import ToastContainer from "./components/ToastContainer";
 import ModalContainer from "./(pages)/tshirt/[slug]/_components/ModalContainer";
 import BuyModal from "./components/BuyModal/BuyModal";
+import OrderProviders from "./src/providers/OrderProviders";
 
 export const metadata = {
   title: "Esvibes - Home",
@@ -23,24 +24,25 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-
   return (
     <html lang="en">
       <body className="min-h-screen pb-[100px] dark:bg-[#000] dark:text-white max-w-5xl mx-auto py-6 px-6">
         <CommonProviders>
-          <ToastContainer />
-          <ModalContainer />
-          <BuyModal />
-          {/* top navbar start  */}
-          <TopNavigation />
-          {/* top navbar end  */}
-          {/*bottom navbar start  */}
-          <Navigation />
+          <OrderProviders>
+            <ToastContainer />
+            <ModalContainer />
+            <BuyModal />
+            {/* top navbar start  */}
+            <TopNavigation />
+            {/* top navbar end  */}
+            {/*bottom navbar start  */}
+            <Navigation />
 
-          {/*bottom navbar end */}
-          {children}
+            {/*bottom navbar end */}
+            {children}
 
-          <Footer />
+            <Footer />
+          </OrderProviders>
         </CommonProviders>
       </body>
     </html>

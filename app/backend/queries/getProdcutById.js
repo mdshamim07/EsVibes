@@ -10,6 +10,7 @@ export default async function getProdcutById(id) {
       "title",
       "price",
       "discount",
+      "stock",
       "sizes",
     ]);
     if (getProduct) {

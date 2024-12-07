@@ -1,131 +1,81 @@
-import AnimationContainer from "@/app/components/AnimationContainer";
-import CartHeader from "../cart/_components/CartHeader";
-import CheckoutItem from "./_components/CheckoutItem";
-import CartItem from "../cart/_components/CartItem";
-import OrderContainer from "./_components/OrderContainer";
-import AddressContent from "../(profile)/dashboard/address/_components/AddressContent";
-import AddressContainer from "../(profile)/dashboard/address/_components/AddressContainer";
-import AddressField from "../(profile)/dashboard/address/_components/AddressField";
-import ActualAddress from "../(profile)/dashboard/address/_components/ActualAddress";
-import { auth } from "@/auth";
-import getProdcutById from "@/app/backend/queries/getProdcutById";
-import UserCredentials from "@/app/src/UserCredentials";
 import getCartById from "@/app/backend/queries/getCartById";
-export const metadata = {
-  title: "Esvibes - Checkout",
-};
-export default async function page({ searchParams }) {
-  const parameter = await searchParams;
-  const loggedUser = await auth();
-  const isBuy = parameter?.size && parameter?.quantity && parameter?.product;
+import ShippingOption from "../cart/_components/ShippingOption";
+import CheckoutItem from "./_components/CheckoutItem";
+import DistrictInput from "./_components/DistrictInput";
+import CartItem from "../cart/_components/CartItem";
+import { minusDiscount } from "../cart/page";
+import CartHeader from "../cart/_components/CartHeader";
+import CheckoutAction from "./_components/CheckoutAction";
+import DeliveryOptions from "./_components/DeliveryOptions";
 
-  // Fetch product data only when isBuy is true
-  let product = null;
-  if (isBuy) {
-    const productData = await getProdcutById(parameter?.product);
-    product = productData?.product || null;
-  }
-  // Fetch user credentials and cart data
-  const getUser = loggedUser ? await UserCredentials(loggedUser?.user?.id) : {};
+export default async function page() {
   const carts = await getCartById();
-
-  // Handle items for the order
-  const items = carts.map((item) => ({
-    product: item.productId?._id,
-    quantity: item.quantity,
-    size: item?.size,
-  }));
-  const newItem = product
-    ? [
-        {
-          product: product?._id,
-          quantity: parameter?.quantity,
-          size: parameter?.size,
-        },
-      ]
-    : [];
-
-  // Calculate total prices
   let totalPrice = carts.reduce((total, item) => {
-    return total + item.price * item.quantity;
+    return (
+      total +
+      minusDiscount(item?.productId?.price, item?.productId?.discount) *
+        item.quantity
+    );
   }, 0);
-  const discountedPrice = product?.price * (1 - product?.discount / 100);
-
-  // Construct order object
-  const orderObject = {
-    items: isBuy ? newItem : items,
-    address: getUser?.address,
-  };
-  const cartIds = carts.map((cartItem) => cartItem?._id);
-
   return (
-    <AnimationContainer>
-      <section className="min-h-screen py-[50px]">
-        <div className="page-title">
-          <button className="btn text-center">Checkout</button>
+    <section className="min-h-screen py-[50px]">
+      <div className="page-title">
+        <button className="btn text-center">Checkout</button>
+      </div>
+      <CartHeader />
+      {carts.map((cartItem) => (
+        <CartItem
+          mode="checkout"
+          stock={cartItem?.stock}
+          quantity={cartItem?.quantity}
+          key={cartItem?._id}
+          size={cartItem?.size}
+          cartId={cartItem?._id}
+          cartItem={cartItem}
+        />
+      ))}
+
+      <div className="w-full ">
+        <div className="nav-border p-2 w-full ">
+          <h2 className="text-xl font-bold">Shipping &amp; Billing</h2>
+          <div className="mt-2">
+            <input
+              placeholder="Name"
+              name="name"
+              className="w-full nav-border py-[3px] px-4 outline-none bg-transparent focus:border-white"
+            />
+            <input
+              placeholder="Address"
+              name="address"
+              className="w-full mt-2 nav-border py-[3px] px-4 outline-none bg-transparent focus:border-white"
+            />
+            <div className="flex gap-2">
+              <input
+                placeholder="City"
+                name="city"
+                className="w-full nav-border mt-2 py-[3px] px-4 outline-none bg-transparent focus:border-white"
+              />
+              <DistrictInput />
+            </div>
+            <div className="flex gap-2">
+              <input
+                placeholder="Postal Code (optional)"
+                name="postalCode"
+                className="w-full mt-2 nav-border py-[3px] px-4 outline-none bg-transparent focus:border-white"
+              />
+              <input
+                placeholder="Phone"
+                name="Phone"
+                className="w-full mt-2 nav-border py-[3px] px-4 outline-none bg-transparent focus:border-white"
+              />
+            </div>
+          </div>
         </div>
+        <ShippingOption />
+        <DeliveryOptions />
 
-        {(isBuy || carts.length > 0) && <CartHeader mode="checkout" />}
-
-        {isBuy ? (
-          product ? (
-            <div className="mt-4">
-              <CheckoutItem
-                totalPrice={discountedPrice * parameter?.quantity}
-                thumbnail={product?.thumbnail}
-                title={product?.title}
-                quantity={parameter?.quantity}
-                price={product?.price}
-                size={parameter?.size}
-                discount={product?.discount}
-              />
-            </div>
-          ) : (
-            <div className="mt-4 text-center text-red-500">
-              Product not found.
-            </div>
-          )
-        ) : carts.length > 0 ? (
-          <div className="mt-4">
-            {carts.map((cartItem) => (
-              <CartItem
-                mode="checkout"
-                productId={cartItem?.productId}
-                cartId={cartItem?._id}
-                size={cartItem?.size}
-                title={cartItem?.productId?.title}
-                thumbnail={cartItem?.productId?.thumbnail}
-                price={cartItem?.price}
-                quantity={cartItem?.quantity}
-                key={cartItem?._id}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="mt-4 text-center text-gray-500">
-            No checkout items found.
-          </div>
-        )}
-
-        {isBuy || carts.length > 0 ? (
-          <OrderContainer
-            address={getUser?.address}
-            cartIds={cartIds}
-            mode={isBuy ? "direct" : "indirect"}
-            orderObject={orderObject}
-            totalPrice={
-              isBuy ? discountedPrice * parameter?.quantity : totalPrice
-            }
-            items={isBuy ? 1 : carts.length}
-          >
-            <AddressContent user={getUser} address={getUser?.address}>
-              <AddressContainer>
-                <ActualAddress address={getUser?.address} />
-              </AddressContainer>
-            </AddressContent>
-          </OrderContainer>
-        ) : null}
-      </section>
-    </AnimationContainer>
+        <CheckoutAction />
+      </div>
+    </section>
   );
 }

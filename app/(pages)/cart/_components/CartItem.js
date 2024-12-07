@@ -3,37 +3,37 @@ import Image from "next/image";
 import DeleteCartButton from "./DeleteCartButton";
 
 import EditCartButton from "./EditCartButton";
+import getProdcutById from "@/app/backend/queries/getProdcutById";
+import formatePrice from "@/helpers/formatePrice";
+import { minusDiscount } from "../page";
 
-export default function CartItem({
-  thumbnail,
-  title,
-  price,
-  quantity,
+export default async function CartItem({
+  mode,
+  cartItem,
   size,
+  quantity,
   cartId,
   stock,
-  productId,
-  mode,
 }) {
- 
-  const originalPrice = mainPrice(price);
-  const totalPrice = mainPrice(price * quantity);
+  const { product } = await getProdcutById(cartItem?.productId?._id);
 
   return (
-    <div className="grid mt-2 nav-border grid-cols-12 gap-4 shadow-lg p-2">
+    <div className="grid mt-1 nav-border grid-cols-12 gap-4 shadow-lg p-2 mb-1">
       <Image
         width={80}
         height={80}
+        src={product?.thumbnail}
+        alt={product?.title}
         className="col-span-12 md:col-span-1 w-[80px] h-[80px] object-cover"
-        src={thumbnail}
-        alt={title}
       />
       <div className="col-span-12 md:col-span-3 flex items-center justify-center">
-        <h1 className="text-center ">{title}</h1>
+        <h1 className="text-center ">{product?.title}</h1>
       </div>
       <div className="col-span-6 md:col-span-2 flex text-center justify-center items-center">
         <span className="md:hidden text-xs"> Price :</span>
-        <p className="text-gray-300 text-xs ml-2">৳ {originalPrice}</p>
+        <p className="text-gray-300 text-xs ml-2">
+          ৳ {formatePrice(product?.price, product?.discount)}
+        </p>
       </div>
       <div className="col-span-6 md:col-span-1 text-center flex items-center">
         <span className="md:hidden"> Quantity :</span>
@@ -45,7 +45,12 @@ export default function CartItem({
       </div>
       <div className="col-span-12 md:col-span-2 flex text-center justify-center items-center">
         <span className="md:hidden text-xs"> Total Price :</span>
-        <p className="text-gray-300  ml-2 text-xs">৳ {totalPrice}</p>
+        <p className="text-gray-300  ml-2 text-xs">
+          ৳{" "}
+          {mainPrice(
+            minusDiscount(product?.price, product?.discount) * quantity
+          )}
+        </p>
       </div>
       {mode === "checkout" || (
         <div className="col-span-12 md:col-span-2 flex items-center gap-2">
@@ -54,7 +59,7 @@ export default function CartItem({
             size={size}
             cartId={cartId}
             stock={stock}
-            productId={productId}
+            productId={product?._id}
           />
           <DeleteCartButton cartId={cartId} />
         </div>
