@@ -24,8 +24,8 @@ export default async function page({ searchParams }) {
           <path d="m9 12 2 2 4-4" />
         </svg>
         <div className="flex justify-center items-center flex-col mt-4">
-          <h1 className="text-2xl font-medium">Order Success</h1>
-          <p>Payment Is Successfully And Your Order Is On The Way</p>
+          <h1 className="text-2xl font-medium">অর্ডার সফল</h1>
+          <p>আপনার পেমেন্ট সফল হয়েছে। শীঘ্রই আপনার অর্ডার পাঠানো হবে।</p>
           <p>
             Transaction ID :{" "}
             <span className="text-gray-300">{params?.transactionId}</span>
@@ -33,10 +33,10 @@ export default async function page({ searchParams }) {
           <div className="flex items-center gap-2 mt-2">
             {" "}
             <Link href="/" className="btn ">
-              Home
+              হোম
             </Link>
             <Link href="/dashboard/orders" className="variable-btn nav-border ">
-              My Orders
+              আমার অর্ডারসমুহ
             </Link>
           </div>
         </div>

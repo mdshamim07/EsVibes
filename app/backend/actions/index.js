@@ -13,7 +13,7 @@ import delteCartItemById from "../models/delteCartItemById";
 import getDiscount from "../queries/getDiscount";
 import placeOrderQuery from "../queries/placeOrderQuery";
 import updateCartQuery from "../queries/updateCartQuery";
-import AddCommentQuery from "../queries/AddCommentQuery";
+import addPaymentQuery from "../queries/addPaymentQuery";
 
 export async function createUserAction(userObject) {
   try {
@@ -253,5 +253,43 @@ export async function updateCart(updatedId, updatedData) {
     return response;
   } catch (err) {
     throw new Error("Something went wrong while updating cart");
+  }
+}
+
+export async function checkoutAction(formData, carts) {
+  try {
+    const { name, address, city, district, Phone, paymentMethod } = formData;
+    if (
+      name.trim().length === 0 ||
+      address.trim().length === 0 ||
+      city.trim().length === 0 ||
+      district.trim().length === 0 ||
+      Phone.trim().length === 0
+    ) {
+      return {
+        ok: false,
+        message: "সকল ফিল্ড প্রয়োজন!",
+      };
+    } else {
+      const response = await placeOrderQuery(formData, carts);
+      if (response) {
+        revalidatePath("/");
+        return {
+          ok: true,
+          orderId: response?.orderId,
+        };
+      }
+    }
+  } catch (err) {
+    throw new Error(err);
+  }
+}
+
+export async function addPayment(orderId, transactionId) {
+  try {
+    const response = await addPaymentQuery(orderId, transactionId);
+    return response;
+  } catch (err) {
+    throw new Error(err.message);
   }
 }

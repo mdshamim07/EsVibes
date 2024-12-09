@@ -10,7 +10,7 @@ export default async function page() {
 
   return (
     <AnimationContainer>
-      <div className="flex justify-center mt-8" />
+      <div className="flex justify-center mt-4" />
 
       <section>
         {orders.length > 0 && orders ? (
@@ -21,6 +21,7 @@ export default async function page() {
               payment={order?.payment}
               items={order?.items}
               key={order?._id}
+              
             />
           ))
         ) : (

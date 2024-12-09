@@ -14,6 +14,7 @@ export default async function page() {
 
   return (
     <AnimationContainer>
+      
       <section>
         <PersonalInfo
           userId={loggedAuth?.user?.id}

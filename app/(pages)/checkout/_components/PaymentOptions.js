@@ -121,12 +121,19 @@ const deliveryOptins = [
     ),
   },
 ];
-export default function DeliveryOptions({ children, mode, payment }) {
+export default function PaymentOptions({ children, mode, customClass }) {
   const { order, setOrder } = useOrder();
-  const [paymentMethod, setPaymentMethod] = useState(payment);
+  const [payment, setPayment] = useState(order?.deliveryOption);
   return (
-    <div className="w-full md:w-[50%] nav-border p-2  mt-2">
-      <h2 className="text-xl font-bold">পেমেন্ট অপশন</h2>
+    <div className={`w-[50%] nav-border p-2  mt-2 ${customClass}`}>
+      <h2 className="text-xl font-bold">Payment Option</h2>
+      <input
+        name="paymentMethod"
+        value={payment}
+        type="hidden"
+        onChange={(e) => setPayment(e.target.value)}
+        className="bg-black"
+      />
       <div className="text-sm mt-2">
         <ul>
           {deliveryOptins.map((item) => (
@@ -137,10 +144,10 @@ export default function DeliveryOptions({ children, mode, payment }) {
                   ...order,
                   deliveryOption: item?.objective,
                 });
-                setPaymentMethod(item?.objective);
+                setPayment(item?.objective);
               }}
               className={`mt-2 ${
-                paymentMethod === item?.objective && "bg-secondary"
+                order?.deliveryOption === item?.objective && "bg-secondary"
               } flex items-center gap-2 nav-border w-full px-2 py-[4px] cursor-pointer`}
             >
               {item?.svg}

@@ -4,15 +4,12 @@ import { useEffect, useState } from "react";
 import { addTocartAction, updateCart } from "../backend/actions";
 import useCommonState from "../src/hooks/useCommonState";
 import SecondaryLoadingBtn from "./SecondaryLoadingBtn";
+import { useRouter } from "next/navigation";
 
 export default function AddCart({ quantity, productId, size }) {
   const { common, setCommon } = useCommonState();
   const [loading, setLoading] = useState(false);
-  const [localCarts, setLocalCarts] = useState([]);
-  useEffect(() => {
-    const cartItems = JSON.parse(localStorage.getItem("carts")) || []; // Ensure it initializes as an array
-    setLocalCarts(cartItems);
-  }, []);
+  const router = useRouter();
   const handleAddToCart = async () => {
     try {
       setCommon({
@@ -33,18 +30,12 @@ export default function AddCart({ quantity, productId, size }) {
           quantity: 1,
         });
       } else {
-        const newCartItem = { quantity, productId, size };
-        const updatedCarts = [...localCarts, newCartItem]; // Add the new item to the existing cart list
-        setLocalCarts(updatedCarts); // Update the state with the new cart list
-        localStorage.setItem("carts", JSON.stringify(updatedCarts));
         setCommon({
           ...common,
-          toastSuccess: false,
-          toast: true,
           buyModal: false,
           quantity: 1,
-          toastMessage: response?.message,
         });
+        router.push("/login");
       }
     } catch (err) {
       setCommon({

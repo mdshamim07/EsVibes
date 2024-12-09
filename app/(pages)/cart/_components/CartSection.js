@@ -3,7 +3,8 @@ import CartItem from "./CartItem";
 import CartHeader from "./CartHeader";
 import OrderSummary from "./OrderSummary";
 
-export default function CartSection({ carts, totalPrice }) {
+export default async function CartSection({ carts, totalPrice }) {
+
   return (
     <div className="flex  flex-col gap-4 min-h-screen">
       {carts.length > 0 ? (
@@ -19,7 +20,7 @@ export default function CartSection({ carts, totalPrice }) {
               cartItem={cartItem}
             />
           ))}
-         
+
           <OrderSummary carts={carts} total={totalPrice} items={carts.length} />
         </>
       ) : (
@@ -41,14 +42,14 @@ export default function CartSection({ carts, totalPrice }) {
             <line x1={9} x2="9.01" y1={9} y2={9} />
             <line x1={15} x2="15.01" y1={9} y2={9} />
           </svg>
-          <p>Your shopping cart is currently empty.</p>
+          <p>আপনার শপিং কার্টে এই মুহুর্তে কিছু নেই!</p>
           <div className="flex gap-2 items-center">
             {" "}
             <Link href="/" className="btn">
-              Go To Home
+              হোম
             </Link>
             <Link href="/shop" className="variable-btn nav-border">
-              Go To Shop
+              শপ
             </Link>
           </div>
         </div>

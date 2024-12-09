@@ -1,83 +1,87 @@
+import { minusDiscount } from "@/app/(pages)/cart/page";
 import { auth } from "@/auth";
-import { dbConnect } from "../connection/dbConnect";
-import { orderModel } from "../models/orderModel";
-import { cartModel } from "../models/CartModel";
-import { ProductModel } from "../models/ProductModel";
-
 import generateNumber from "@/helpers/generateNumber";
+import { ProductModel } from "../models/ProductModel";
+import applyDiscount from "@/helpers/applyDiscount";
+import { orderModel } from "../models/orderModel";
+import { cartModel } from "../models/CartModel"; // Assuming CartModel is imported here
+import formateMongo from "@/helpers/formateMongo";
 
-export default async function placeOrderQuery(params, cartIds, mode) {
+export default async function placeOrderQuery(formData, carts) {
   try {
-    // Connect to the database
-    await dbConnect();
-
-    // Authenticate the user
     const loggedAuth = await auth();
-    if (!loggedAuth?.user?.id) {
-      throw new Error("User not authenticated.");
-    }
 
-    // Process items to include price and update stock
-    const itemsWithPrice = await Promise.all(
-      params.items.map(async (item) => {
-        const product = await ProductModel.findById(item.product).select([
-          "price",
-          "discount",
-          "stock",
-        ]);
-        if (!product) {
-          throw new Error(`Product with ID ${item.product} not found.`);
-        }
-        if (product.stock <= 0) {
-          throw new Error(`Product with ID ${item.product} is out of stock.`);
-        }
+    // Calculate the total price of the order with discount applied
+    let totalPrice = carts.reduce((total, item) => {
+      return (
+        total +
+        minusDiscount(item?.productId?.price, item?.productId?.discount) *
+          item.quantity
+      );
+    }, 0);
 
-        const discountedPrice = product.price * (1 - product.discount / 100);
-
-        // Decrement stock by 1
-        product.stock -= item?.quantity;
-        await product.save();
-
+    // Prepare the order items with prices and quantities
+    const items = await Promise.all(
+      carts.map(async (cartItem) => {
+        // Fetch product details using the product ID from the cart item
+        const product = await ProductModel.findById(cartItem?.productId?._id);
+        const price = applyDiscount(product?.price, product?.discount);
         return {
-          ...item,
-          price: discountedPrice, // Add the price to the item
+          quantity: cartItem?.quantity,
+          size: cartItem?.size,
+          product: cartItem?.productId?._id,
+          price: price || 0, // Ensure price is returned even if product is not found
         };
       })
     );
 
-    // Update the params object with the processed items
-    const updatedObject = {
-      ...params,
-      items: itemsWithPrice,
-      user: loggedAuth?.user?.id,
-      transactionId: generateNumber(),
+    // Prepare the shipping address from form data
+    const address = {
+      name: formData?.name.trim(),
+      address: formData?.address?.trim(),
+      city: formData?.city.trim(),
+      district: formData?.district.trim(),
+      phone: formData?.Phone.trim(),
+      postalCode: formData?.postalCode?.trim(),
     };
 
+    // Prepare the new order data
+    const newOrder = {
+      items,
+      address,
+      payment: formData?.paymentMethod,
+      discount: 0,
+      user: loggedAuth?.user?.id,
+      transactionId: generateNumber(),
+      totalPrice,
+    };
 
     // Create the order
-    const response = await orderModel.create(updatedObject);
+    const response = await orderModel.create(newOrder);
 
-    // If the order is successfully created, delete cart items
-    if (mode === "indirect") {
-      const deleteQuery = await cartModel.deleteMany({ _id: { $in: cartIds } });
-      if (deleteQuery.deletedCount === cartIds.length) {
-        return {
-          ok: true,
-          message: "Successfully placed order!",
-          transactionId: generateNumber(),
-        };
-      }
-    } else {
-      return {
-        ok: true,
-        message: "Successfully placed order!",
-        transactionId: generateNumber(),
-      };
+    // If order is successful, update stock and remove items from cart
+    if (response) {
+      // Update product stock by reducing the quantity
+      await Promise.all(
+        carts.map(async (cartItem) => {
+          const product = await ProductModel.findById(cartItem?.productId?._id);
+          if (product) {
+            product.stock -= cartItem?.quantity; // Reduce stock
+            await product.save();
+          }
+        })
+      );
+
+      // Remove items from the user's cart
+      await cartModel.deleteMany({ userId: loggedAuth?.user?.id });
+
+      // Return success response
+      return { ok: true, orderId: formateMongo(response?._id) };
     }
+
+    // In case of an error, return failure response
+    return { ok: false, message: "Order placement failed" };
   } catch (err) {
-    console.error("Error in placeOrderQuery:", err.message || err);
-    throw new Error(
-      err.message || "An error occurred while placing the order."
-    );
+    throw new Error(err);
   }
 }

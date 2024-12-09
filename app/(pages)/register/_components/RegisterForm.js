@@ -58,13 +58,13 @@ export default function RegisterForm({ children }) {
     <form onSubmit={handleRegister}>
       {" "}
       <div className="form-control">
-        <label htmlFor="name">Name</label>
+        <label htmlFor="name">নাম</label>
         <input
           name="fName"
           onChange={handleChange}
           value={registerState?.fName}
           type="text"
-          placeholder="Enter Your Name"
+          placeholder="আপনার নাম লিখুন"
           className={`${
             error?.error === "name-error" && "!border !border-red-600"
           }`}
@@ -91,7 +91,7 @@ export default function RegisterForm({ children }) {
         )}
       </div>
       <div className="form-control">
-        <label htmlFor="name">Phone</label>
+        <label htmlFor="name">ফোন</label>
         <input
           onChange={handleChange}
           name="phone"
@@ -100,7 +100,7 @@ export default function RegisterForm({ children }) {
           className={`${
             error?.error === "phone-error" && "!border !border-red-600"
           }`}
-          placeholder="Enter Your Phone"
+          placeholder="আপনার ফোন নাম্বার লিখুন"
         />
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -123,13 +123,13 @@ export default function RegisterForm({ children }) {
         )}
       </div>
       <div className="form-control">
-        <label htmlFor="name">Password</label>
+        <label htmlFor="name">পাসওয়ার্ড</label>
         <input
           name="password"
           onChange={handleChange}
           value={registerState?.password}
           type={isShow ? "text" : "password"}
-          placeholder="Enter Your Password"
+          placeholder="আপনার পাসওয়ার্ড লিখুন"
           className={`${
             error?.error === "password-error" && "!border !border-red-600"
           }`}
@@ -194,7 +194,7 @@ export default function RegisterForm({ children }) {
       </div>
       {children}
       <LoadingBtn customClass="mt-2" loading={loading}>
-        Register
+        রেজিস্টার
       </LoadingBtn>
     </form>
   );

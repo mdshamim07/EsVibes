@@ -8,8 +8,7 @@ export default async function OrderItem({ quantity, payment, index, product }) {
     singleProduct?.product?.price,
     singleProduct?.product?.discount
   );
- 
-  
+
   return (
     <div className="md:ml-4 mt-4 order-item">
       <button className="btn mb-2 mt-2">Item - {index + 1}</button>
@@ -30,6 +29,7 @@ export default async function OrderItem({ quantity, payment, index, product }) {
           <p className="text-sm">
             Quantity : <span className="text-gray-300"> {quantity}</span>
           </p>
+        
         </div>
       </div>
     </div>

@@ -13,10 +13,8 @@ export default async function CartItem({
   size,
   quantity,
   cartId,
-  stock,
 }) {
   const { product } = await getProdcutById(cartItem?.productId?._id);
-
   return (
     <div className="grid mt-1 nav-border grid-cols-12 gap-4 shadow-lg p-2 mb-1">
       <Image
@@ -58,7 +56,7 @@ export default async function CartItem({
             quantity={quantity}
             size={size}
             cartId={cartId}
-            stock={stock}
+            stock={product?.stock}
             productId={product?._id}
           />
           <DeleteCartButton cartId={cartId} />

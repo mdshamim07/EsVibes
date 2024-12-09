@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@100..800&family=SUSE:wght@100..800&display=swap");
 @font-face {
   font-family: "logo-font";
   src: url("./fonts/es-logo.ttf");
@@ -6,6 +7,11 @@
   font-family: "body-font";
   src: url("./fonts/suse.ttf");
 }
+@font-face {
+  font-family: "main-font";
+  src: url("./fonts/font.ttf");
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -14,7 +20,7 @@
 }
 
 * {
-  font-family: "body-font";
+  font-family: "Anek Bangla", sans-serif;
 }
 
 .nav-item {

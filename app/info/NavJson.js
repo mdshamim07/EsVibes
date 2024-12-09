@@ -2,7 +2,7 @@ export const NavData = [
   {
     id: 1,
     link: "/",
-    title: "Home",
+    title: "হোম",
     svg: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -24,7 +24,7 @@ export const NavData = [
   {
     id: 2,
     link: "/shop",
-    title: "Shop",
+    title: "শপ",
     svg: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -47,7 +47,7 @@ export const NavData = [
   {
     id: 3,
     link: "/contact",
-    title: "Contact",
+    title: "যোগাযোগ",
     svg: (
       <svg
         xmlns="http://www.w3.org/2000/svg"

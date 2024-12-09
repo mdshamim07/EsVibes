@@ -1,12 +1,15 @@
 import getCartById from "@/app/backend/queries/getCartById";
 import ShippingOption from "../cart/_components/ShippingOption";
-import CheckoutItem from "./_components/CheckoutItem";
 import DistrictInput from "./_components/DistrictInput";
 import CartItem from "../cart/_components/CartItem";
 import { minusDiscount } from "../cart/page";
 import CartHeader from "../cart/_components/CartHeader";
 import CheckoutAction from "./_components/CheckoutAction";
-import DeliveryOptions from "./_components/DeliveryOptions";
+import PaymentOptions from "./_components/PaymentOptions";
+import { checkoutAction } from "@/app/backend/actions";
+import AddressBox from "./_components/AddressBox";
+import CheckoutForm from "./_components/CheckoutForm";
+import Link from "next/link";
 
 export default async function page() {
   const carts = await getCartById();
@@ -18,64 +21,82 @@ export default async function page() {
     );
   }, 0);
   return (
-    <section className="min-h-screen py-[50px]">
+    <section className="min-h-screen py-[20px]">
       <div className="page-title">
-        <button className="btn text-center">Checkout</button>
+        <button className="variable-btn flex gap-2 items-center nav-border text-center">
+          {" "}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width={16}
+            height={16}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="lucide lucide-shopping-cart"
+          >
+            <circle cx={8} cy={21} r={1} />
+            <circle cx={19} cy={21} r={1} />
+            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
+          </svg>
+          চেকআউট
+        </button>
       </div>
-      <CartHeader />
-      {carts.map((cartItem) => (
-        <CartItem
-          mode="checkout"
-          stock={cartItem?.stock}
-          quantity={cartItem?.quantity}
-          key={cartItem?._id}
-          size={cartItem?.size}
-          cartId={cartItem?._id}
-          cartItem={cartItem}
-        />
-      ))}
-
-      <div className="w-full ">
-        <div className="nav-border p-2 w-full ">
-          <h2 className="text-xl font-bold">Shipping &amp; Billing</h2>
-          <div className="mt-2">
-            <input
-              placeholder="Name"
-              name="name"
-              className="w-full nav-border py-[3px] px-4 outline-none bg-transparent focus:border-white"
+      {carts.length > 0 ? (
+        <>
+          {" "}
+          <CartHeader />
+          {carts.map((cartItem) => (
+            <CartItem
+              mode="checkout"
+              stock={cartItem?.stock}
+              quantity={cartItem?.quantity}
+              key={cartItem?._id}
+              size={cartItem?.size}
+              cartId={cartItem?._id}
+              cartItem={cartItem}
             />
-            <input
-              placeholder="Address"
-              name="address"
-              className="w-full mt-2 nav-border py-[3px] px-4 outline-none bg-transparent focus:border-white"
-            />
-            <div className="flex gap-2">
-              <input
-                placeholder="City"
-                name="city"
-                className="w-full nav-border mt-2 py-[3px] px-4 outline-none bg-transparent focus:border-white"
-              />
-              <DistrictInput />
-            </div>
-            <div className="flex gap-2">
-              <input
-                placeholder="Postal Code (optional)"
-                name="postalCode"
-                className="w-full mt-2 nav-border py-[3px] px-4 outline-none bg-transparent focus:border-white"
-              />
-              <input
-                placeholder="Phone"
-                name="Phone"
-                className="w-full mt-2 nav-border py-[3px] px-4 outline-none bg-transparent focus:border-white"
-              />
-            </div>
+          ))}
+          <CheckoutForm carts={carts}>
+            <AddressBox />
+            <ShippingOption />
+            <PaymentOptions customClass="w-full" />
+            <CheckoutAction totalItem={carts.length} total={totalPrice} />
+          </CheckoutForm>
+        </>
+      ) : (
+        <div className="min-h-[50vh] flex gap-2 justify-center items-center flex-col ">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width={40}
+            height={40}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="lucide lucide-frown"
+          >
+            <circle cx={12} cy={12} r={10} />
+            <path d="M16 16s-1.5-2-4-2-4 2-4 2" />
+            <line x1={9} x2="9.01" y1={9} y2={9} />
+            <line x1={15} x2="15.01" y1={9} y2={9} />
+          </svg>
+          <p>আপনার শপিং কার্টে এই মুহুর্তে কিছু নেই!</p>
+          <div className="flex gap-2 items-center">
+            {" "}
+            <Link href="/" className="btn">
+              হোম
+            </Link>
+            <Link href="/shop" className="variable-btn nav-border">
+              শপ
+            </Link>
           </div>
         </div>
-        <ShippingOption />
-        <DeliveryOptions />
-
-        <CheckoutAction />
-      </div>
+      )}
     </section>
   );
 }

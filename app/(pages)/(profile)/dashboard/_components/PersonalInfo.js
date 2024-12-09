@@ -56,15 +56,15 @@ export default function PersonalInfo({ name, phone }) {
   };
   return (
     <form onSubmit={handleUpdatePesonalInfo} className=" nav-border p-3 mt-4">
-      <h1 className="font-medium">Update Personal Information</h1>
+      <h1 className="font-medium">ব্যক্তিগত তথ্য আপডেট করুন</h1>
       <div className={`form-control ${loading && "opacity-50"}`}>
-        <label htmlFor="name">Name</label>
+        <label htmlFor="name">নাম</label>
         <input
           onChange={handleChange}
           value={info?.name}
           type="text"
           name="name"
-          placeholder="Enter Your Name"
+          placeholder="আপনার নাম"
           className={`${error.error === "name-error" && "!border-red-600"}`}
         />
         <svg
@@ -89,13 +89,13 @@ export default function PersonalInfo({ name, phone }) {
         )}
       </div>
       <div className={`form-control mb-2  ${loading && "opacity-50"}`}>
-        <label htmlFor="name">Phone</label>
+        <label htmlFor="name">ফোন নাম্বার</label>
         <input
           onChange={handleChange}
           name="phone"
           value={info?.phone}
           type="number"
-          placeholder="Enter Your Phone"
+          placeholder="আপনার ফোন নাম্বার"
           className={`${error.error === "phone-error" && "!border-red-600"}`}
         />
         <svg

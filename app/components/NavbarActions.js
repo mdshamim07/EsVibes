@@ -4,10 +4,10 @@ export default function NavbarActions() {
   return (
     <div className="actions  items-center gap-3 flex">
       <Link href="/login" className="btn cursor-pointer">
-        Login
+        লগিন
       </Link>
       <Link href="/register" className="variable-btn nav-border cursor-pointer">
-        Register
+        রেজিস্টার
       </Link>
     </div>
   );

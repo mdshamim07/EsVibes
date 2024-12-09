@@ -41,14 +41,14 @@ export default function LoginForm({ children }) {
     <form onSubmit={handleLogin}>
       <p className="text-red-600 text-xs mt-2 mb-2">{error}</p>
       <div className="form-control">
-        <label htmlFor="phone">Phone</label>
+        <label htmlFor="phone">ফোন</label>
         <input
           name="phone"
           onChange={handleChange}
           value={loginState.phone}
           type="text"
           className={`${error && "!border-red-600"}`}
-          placeholder="Enter Your Phone"
+          placeholder="আপনার ফোন নাম্বার লিখুন"
         />
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -68,13 +68,13 @@ export default function LoginForm({ children }) {
         </svg>
       </div>
       <div className="form-control">
-        <label htmlFor="name">Password</label>
+        <label htmlFor="name">পাসওয়ার্ড</label>
         <input
           name="password"
           onChange={handleChange}
           value={loginState?.password}
           type={isShow ? "text" : "password"}
-          placeholder="Enter Your Password"
+          placeholder="আপনার পাসওয়ার্ড লিখুন!"
           className={`${error && " !border-red-600"}`}
         />
         <svg
@@ -137,7 +137,7 @@ export default function LoginForm({ children }) {
       </div>
       <div>{children}</div>
       <LoadingBtn loading={loading} customClass="mt-2">
-        Login
+        লগিন
       </LoadingBtn>
     </form>
   );

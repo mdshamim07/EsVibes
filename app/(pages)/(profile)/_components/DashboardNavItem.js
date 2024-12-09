@@ -12,7 +12,7 @@ export default function DashboardNavItem({ children, target }) {
         href={target}
         className={`w-full h-full ${
           isActive
-            ? "btn border  border-transparent"
+            ? "btn  border  border-transparent"
             : "variable-btn nav-border"
         }  mt-4 cursor-pointer`}
       >

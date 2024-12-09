@@ -1,17 +1,12 @@
 export const DashboardNavData = [
   {
     id: 1,
-    title: "Home",
+    title: "হোম",
     link: "/dashboard",
   },
   {
     id: 2,
-    title: "Orders",
+    title: "অর্ডারস",
     link: "/dashboard/orders",
-  },
-  {
-    id: 3,
-    title: "Address",
-    link: "/dashboard/address",
   },
 ];

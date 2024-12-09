@@ -1,6 +1,7 @@
 "use client";
 import useOrder from "@/app/src/hooks/useOrder";
 import mainPrice from "@/helpers/mainPrice";
+import { useState } from "react";
 
 export const shippingOptions = [
   {
@@ -20,24 +21,34 @@ export const shippingOptions = [
 ];
 export default function ShippingOption() {
   const { order, setOrder } = useOrder();
-
+  const [shippingFee, setShippingFee] = useState(order?.shippingFee);
   return (
     <div className="nav-border p-3 mt-4">
       <div className="flex items-center gap-6 ">
         <h1 className="font-medium ">Shipping Option</h1>
-        <p className="text-xs text-blue-500 underline cursor-pointer">কেন অগ্রিম পেমেন্ট করতে হবে ?</p>
+        <p className="text-xs text-blue-500 underline cursor-pointer">
+          কেন অগ্রিম পেমেন্ট করতে হবে ?
+        </p>
       </div>
       <div className="text-sm mt-2">
+        <input
+          value={shippingFee}
+          type="hidden"
+          onChange={(e) => setShippingFee(e.target.value)}
+          className="bg-black"
+          name="shippingFee"
+        />
         <ul className="space-y-2">
           {shippingOptions.map((shipItem) => (
             <li
-              onClick={() =>
+              onClick={() => {
                 setOrder({
                   ...order,
                   shippingOption: shipItem?.location,
                   shippingFee: shipItem?.shippingFee,
-                })
-              }
+                });
+                setShippingFee(shipItem?.shippingFee);
+              }}
               key={shipItem?.id}
               className={`${
                 shipItem?.location === order?.shippingOption && "bg-secondary"
